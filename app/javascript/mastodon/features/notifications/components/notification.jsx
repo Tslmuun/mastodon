@@ -14,7 +14,6 @@ import EditIcon from '@/material-icons/400-24px/edit.svg?react';
 import FlagIcon from '@/material-icons/400-24px/flag-fill.svg?react';
 import HomeIcon from '@/material-icons/400-24px/home-fill.svg?react';
 import InsertChartIcon from '@/material-icons/400-24px/insert_chart.svg?react';
-import LinkOffIcon from '@/material-icons/400-24px/link_off.svg?react';
 import PersonIcon from '@/material-icons/400-24px/person-fill.svg?react';
 import PersonAddIcon from '@/material-icons/400-24px/person_add-fill.svg?react';
 import RepeatIcon from '@/material-icons/400-24px/repeat.svg?react';
@@ -27,7 +26,8 @@ import { WithRouterPropTypes } from 'mastodon/utils/react_router';
 
 import FollowRequestContainer from '../containers/follow_request_container';
 
-import RelationshipsSeveranceEvent from './relationships_severance_event';
+import { ModerationWarning } from './moderation_warning';
+import { RelationshipsSeveranceEvent } from './relationships_severance_event';
 import Report from './report';
 
 const messages = defineMessages({
@@ -40,6 +40,8 @@ const messages = defineMessages({
   update: { id: 'notification.update', defaultMessage: '{name} edited a post' },
   adminSignUp: { id: 'notification.admin.sign_up', defaultMessage: '{name} signed up' },
   adminReport: { id: 'notification.admin.report', defaultMessage: '{name} reported {target}' },
+  relationshipsSevered: { id: 'notification.relationships_severance_event', defaultMessage: 'Lost connections with {name}' },
+  moderationWarning: { id: 'notification.moderation_warning', defaultMessage: 'You have received a moderation warning' },
 });
 
 const notificationForScreenReader = (intl, message, timestamp) => {
@@ -361,24 +363,44 @@ class Notification extends ImmutablePureComponent {
   }
 
   renderRelationshipsSevered (notification) {
-    const { intl, unread } = this.props;
+    const { intl, unread, hidden } = this.props;
+    const event = notification.get('event');
 
-    if (!notification.get('event')) {
+    if (!event) {
       return null;
     }
 
     return (
       <HotKeys handlers={this.getHandlers()}>
-        <div className={classNames('notification notification-severed-relationships focusable', { unread })} tabIndex={0} aria-label={notificationForScreenReader(intl, intl.formatMessage(messages.adminReport, { name: notification.getIn(['event', 'target_name']) }), notification.get('created_at'))}>
-          <div className='notification__message'>
-            <Icon id='unlink' icon={LinkOffIcon} />
+        <div className={classNames('notification notification-severed-relationships focusable', { unread })} tabIndex={0} aria-label={notificationForScreenReader(intl, intl.formatMessage(messages.relationshipsSevered, { name: notification.getIn(['event', 'target_name']) }), notification.get('created_at'))}>
+          <RelationshipsSeveranceEvent
+            type={event.get('type')}
+            target={event.get('target_name')}
+            followersCount={event.get('followers_count')}
+            followingCount={event.get('following_count')}
+            hidden={hidden}
+          />
+        </div>
+      </HotKeys>
+    );
+  }
 
-            <span title={notification.get('created_at')}>
-              <FormattedMessage id='notification.severed_relationships' defaultMessage='Relationships with {name} severed' values={{ name: notification.getIn(['event', 'target_name']) }} />
-            </span>
-          </div>
+  renderModerationWarning (notification) {
+    const { intl, unread, hidden } = this.props;
+    const warning = notification.get('moderation_warning');
 
-          <RelationshipsSeveranceEvent event={notification.get('event')} />
+    if (!warning) {
+      return null;
+    }
+
+    return (
+      <HotKeys handlers={this.getHandlers()}>
+        <div className={classNames('notification notification-moderation-warning focusable', { unread })} tabIndex={0} aria-label={notificationForScreenReader(intl, intl.formatMessage(messages.moderationWarning), notification.get('created_at'))}>
+          <ModerationWarning
+            action={warning.get('action')}
+            id={warning.get('id')}
+            hidden={hidden}
+          />
         </div>
       </HotKeys>
     );
@@ -457,6 +479,8 @@ class Notification extends ImmutablePureComponent {
       return this.renderPoll(notification, account);
     case 'severed_relationships':
       return this.renderRelationshipsSevered(notification);
+    case 'moderation_warning':
+      return this.renderModerationWarning(notification);
     case 'admin.sign_up':
       return this.renderAdminSignUp(notification, account, link);
     case 'admin.report':
