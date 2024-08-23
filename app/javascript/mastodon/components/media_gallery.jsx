@@ -325,13 +325,13 @@ class MediaGallery extends PureComponent {
       style.aspectRatio = '3 / 2';
     }
 
-    const size     = media.take(9).size;
+    const size     = media.size;
     const uncached = media.every(attachment => attachment.get('type') === 'unknown');
 
     if (this.isFullSizeEligible()) {
       children = <Item standalone autoplay={autoplay} onClick={this.handleClick} attachment={media.get(0)} lang={lang} displayWidth={width} visible={visible} />;
     } else {
-      children = media.take(9).map((attachment, i) => <Item key={attachment.get('id')} autoplay={autoplay} onClick={this.handleClick} attachment={attachment} index={i} lang={lang} size={size} displayWidth={width} visible={visible || uncached} />);
+      children = media.map((attachment, i) => <Item key={attachment.get('id')} autoplay={autoplay} onClick={this.handleClick} attachment={attachment} index={i} lang={lang} size={size} displayWidth={width} visible={visible || uncached} />);
     }
 
     if (uncached) {
