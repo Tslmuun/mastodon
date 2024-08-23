@@ -301,7 +301,7 @@ zh-CN:
       new:
         create: 创建公告
         title: 新公告
-      publish: 发布
+      publish: 嘟啊嘟
       published_msg: 公告已发布！
       scheduled_for: 定时在 %{time}
       scheduled_msg: 定时公告已创建！
