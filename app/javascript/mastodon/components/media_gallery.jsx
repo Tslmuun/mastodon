@@ -117,11 +117,11 @@ class Item extends PureComponent {
       spans = 2;
     }
 
-    if (attachment.get('description')?.length > 0) {
-      badges.push(<AltTextBadge key='alt' description={attachment.get('description')} />);
-    }
-
     const description = attachment.getIn(['translation', 'description']) || attachment.get('description');
+
+    if (description?.length > 0) {
+      badges.push(<AltTextBadge key='alt' description={description} />);
+    }
 
     if (attachment.get('type') === 'unknown') {
       return (
