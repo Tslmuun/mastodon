@@ -1,8 +1,4 @@
 default: styles/application.scss
 contrast: styles/contrast.scss
 mastodon-light: styles/mastodon-light.scss
-forest: styles/forest.scss
-sakura: styles/sakura.scss
-bingdaily: styles/bingdaily.scss
-bilibili-light: styles/bilibili-light.scss
 
