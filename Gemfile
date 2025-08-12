@@ -84,7 +84,7 @@ gem 'sanitize', '~> 7.0'
 gem 'scenic', '~> 1.7'
 gem 'sidekiq', '< 8'
 gem 'sidekiq-bulk', '~> 0.2.0'
-gem 'sidekiq-scheduler', '~> 5.0'
+gem 'sidekiq-scheduler', '~> 6.0'
 gem 'sidekiq-unique-jobs', '> 8'
 gem 'simple_form', '~> 5.2'
 gem 'simple-navigation', '~> 4.4'
@@ -223,7 +223,7 @@ gem 'connection_pool', require: false
 gem 'xorcist', '~> 1.1'
 
 gem 'net-http', '~> 0.6.0'
-gem 'rubyzip', '~> 2.3'
+gem 'rubyzip', '~> 3.0'
 
 gem 'hcaptcha', '~> 7.1'
 
