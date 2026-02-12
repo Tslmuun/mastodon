@@ -12,7 +12,9 @@ gl:
     followers:
       one: Seguidora
       other: Seguidoras
-    following: A Seguir
+    following:
+      one: Seguimento
+      other: Seguimentos
     instance_actor_flash: Esta conta é un actor virtual utilizado para representar ó servidor mesmo e non a unha usuaria individual. Utilízase por motivos de federación e non debería estar suspendida.
     last_active: última actividade
     link_verified_on: A propiedade desta ligazón foi verificada en %{date}
@@ -800,6 +802,7 @@ gl:
         view_devops_description: Permite acceder aos taboleiros Sidekiq e phHero
         view_feeds: Ver as canles do directo e temas
         view_feeds_description: Permite ás usuarias acceder ás canles de directo e temas independentemento dos axustes do servidor.
+      requires_2fa: Require un segundo factor de autenticación
       title: Roles
     rules:
       add_new: Engadir regra
@@ -1319,6 +1322,13 @@ gl:
     hint_html: "<strong>Nota:</strong> Non che pediremos o contrasinal na seguinte hora."
     invalid_password: Contrasinal incorrecto
     prompt: Confirma o contrasinal para continuar
+  color_scheme:
+    auto: Auto
+    dark: Escuro
+    light: Claro
+  contrast:
+    auto: Auto
+    high: Alto
   crypto:
     errors:
       invalid_key: non é unha chave Ed25519 ou Curve25519 válida
@@ -1966,11 +1976,11 @@ gl:
     enabled: Borrar automáticamente publicacións antigas
     enabled_hint: Borra automáticamente as túas publicacións unha vez acadan certa lonxevidade, a menos que cumpran algunha destas excepcións
     exceptions: Excepcións
-    explanation: O borrado de publicacións vaise facendo aos poucos cando o servidor non ten moito traballo, é unha tarefa que consume moitos recursos. Así, a eliminación das túas publicacións podería ser lixeiramente posterior a cando lle correspondería por antigüidade.
+    explanation: O proceso de borrado automático ten baixa prioridade. Podería haber un retraso entre acadar o momento de borrado e que se borre realmente.
     ignore_favs: Ignorar favoritas
     ignore_reblogs: Ignorar promocións
     interaction_exceptions: Excepcións baseadas en interaccións
-    interaction_exceptions_explanation: Ten en conta que non hai garantía de que se eliminen as túas publicacións se baixan do límite de promocións ou favorecementos se nalgún momento o tivese superado.
+    interaction_exceptions_explanation: As publicación que excederon de xeito temporal o límite de favorecementos ou promocións poderían quedar retidas incluso se despois diminuíse ese valor.
     keep_direct: Manter mensaxes directas
     keep_direct_hint: Non borrar ningunha das túas mensaxes directas
     keep_media: Manter publicacións que conteñen multimedia
@@ -2012,10 +2022,7 @@ gl:
     review_link: Revisar as condicións do sevizo
     title: Cambios nas condicións do servizo de %{domain}
   themes:
-    contrast: Mastodon (Alto contraste)
-    default: Mastodon (Escuro)
-    mastodon-light: Mastodon (Claro)
-    system: Automático (seguir ao sistema)
+    default: Mastodon
   time:
     formats:
       default: "%d %b, %Y, %H:%M"
@@ -2040,6 +2047,8 @@ gl:
     recovery_codes: Códigos de recuperación do respaldo
     recovery_codes_regenerated: Códigos de recuperación xerados correctamente
     recovery_instructions_html: Se perdeses o acceso ao teu teléfono, podes utilizar un dos códigos de recuperación inferiores para recuperar o acceso á conta. <strong>Garda os códigos nun lugar seguro</strong>. Por exemplo, podes imprimilos e gardalos xunto con outros documentos importantes.
+    resume_app_authorization: Retomar autorización da aplicación
+    role_requirement: "%{domain} require que configures un Segundo Factor de Autenticación para poder usar Mastodon"
     webauthn: Chaves de seguridade
   user_mailer:
     announcement_published:
@@ -2183,6 +2192,7 @@ gl:
       error: Houbo un problema ó eliminar a túa chave de seguridade, inténtao outra vez.
       success: Eliminouse correctamente a chave de seguridade.
     invalid_credential: Chave de seguridade non válida
+    nickname: Sobrenome
     nickname_hint: Escribe un alcume para a túa nova chave de seguridade
     not_enabled: Aínda non tes activado WebAuthn
     not_supported: Este navegador non ten soporte para chaves de seguridade

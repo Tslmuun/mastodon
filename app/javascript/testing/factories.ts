@@ -99,10 +99,11 @@ export const relationshipsFactory: FactoryFunction<ApiRelationshipJSON> = ({
   blocking: false,
   blocked_by: false,
   languages: null,
+  muting: false,
   muting_notifications: false,
+  muting_expires_at: null,
   note: '',
   requested_by: false,
-  muting: false,
   requested: false,
   domain_blocking: false,
   endorsed: false,
@@ -119,6 +120,9 @@ export function unicodeEmojiFactory(
     label: 'Test',
     unicode: '🧪',
     shortcodes: ['test_emoji'],
+    tokens: ['emoji', 'test'],
+    group: 1,
+    order: 1,
     ...data,
   };
 }
@@ -131,6 +135,7 @@ export function customEmojiFactory(
     static_url: '/custom-emoji/logo.svg',
     url: '/custom-emoji/logo.svg',
     visible_in_picker: true,
+    tokens: ['custom'],
     ...data,
   };
 }
