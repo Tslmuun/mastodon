@@ -778,8 +778,10 @@ de:
         administrator_description: Beschränkung aller Berechtigungen umgehen
         delete_user_data: Kontodaten löschen
         delete_user_data_description: Daten anderer Profile ohne Verzögerung löschen
+        invite_bypass_approval: Einladungen ohne Überprüfungen
+        invite_bypass_approval_description: Neue Benutzer*innen zur Registrierung auf diesem Server einladen, ohne manuell genehmigt werden zu müssen
         invite_users: Einladungen
-        invite_users_description: Erlaubt bereits registrierten Benutzer*innen, neue Leute zum Server einzuladen
+        invite_users_description: Neue Benutzer*innen zur Registrierung auf diesem Server einladen
         manage_announcements: Ankündigungen
         manage_announcements_description: Ankündigungen dieses Servers verwalten
         manage_appeals: Einsprüche
@@ -805,7 +807,7 @@ de:
         manage_user_access: Kontozugriff
         manage_user_access_description: Zwei-Faktor-Authentisierungen anderer können deaktiviert, E-Mail-Adressen geändert und Passwörter zurückgesetzt werden
         manage_users: Konten
-        manage_users_description: Erlaubt es Benutzer*innen, die Details anderer Profile einzusehen und diese Accounts zu moderieren
+        manage_users_description: Details anderer Profile einsehen und Moderation von Konten
         manage_webhooks: Webhooks
         manage_webhooks_description: Webhooks für administrative Vorgänge einrichten
         view_audit_log: Protokoll anzeigen
@@ -814,7 +816,7 @@ de:
         view_dashboard_description: Dashboard und verschiedene Metriken
         view_devops: DevOps
         view_devops_description: Auf Sidekiq- und pgHero-Dashboards zugreifen
-        view_feeds: Live-Feeds und Hashtags anzeigen
+        view_feeds: Live-Feeds und Hashtags
         view_feeds_description: Zugriff auf Live-Feeds und Hashtags – unabhängig der Servereinstellungen
       requires_2fa: Zwei-Faktor-Authentisierung erforderlich
       title: Rollen
@@ -1229,7 +1231,6 @@ de:
   application_mailer:
     notification_preferences: E-Mail-Einstellungen ändern
     salutation: "%{name},"
-    settings: 'E-Mail-Einstellungen ändern: %{link}'
     unsubscribe: Abbestellen
     view: 'Siehe:'
     view_profile: Profil anzeigen
@@ -1279,6 +1280,7 @@ de:
     progress:
       confirm: E-Mail bestätigen
       details: Deine Daten
+      list: Registrierungsfortschritt
       review: Unsere Überprüfung
       rules: Serverregeln akzeptieren
     providers:
@@ -1294,6 +1296,7 @@ de:
       invited_by: 'Du kannst %{domain} beitreten – dank der Einladung von:'
       preamble: Diese werden von den Moderator*innen von %{domain} festgelegt und durchgesetzt.
       preamble_invited: Bevor du fortfährst, beachte bitte die Grundregeln der Moderator*innen von %{domain}.
+      read_more: Weiterlesen
       title: Einige Grundregeln.
       title_invited: Du wurdest eingeladen.
     security: Sicherheit
@@ -1651,9 +1654,6 @@ de:
     title: Anmeldeverlauf
   mail_subscriptions:
     unsubscribe:
-      action: Ja, abbestellen
-      complete: Abbestellt
-      confirmation_html: Möchtest du %{type} für Mastodon auf %{domain} an deine E-Mail-Adresse %{email} wirklich abbestellen? Du kannst dies später in den Einstellungen <a href="%{settings_path}">Benachrichtigungen per E-Mail</a> rückgängig machen.
       emails:
         notification_emails:
           favourite: E-Mail-Benachrichtigungen bei Favoriten
@@ -1661,14 +1661,11 @@ de:
           follow_request: E-Mail-Benachrichtigungen bei Follower-Anfragen
           mention: E-Mail-Benachrichtigungen bei Erwähnungen
           reblog: E-Mail-Benachrichtigungen bei geteilten Beiträgen
-      resubscribe_html: Falls du etwas irrtümlich abbestellt hast, kannst du das in den Einstellungen <a href="%{settings_path}">Benachrichtigungen per E-Mail</a> rückgängig machen.
-      success_html: Du wirst nicht länger %{type} für Mastodon auf %{domain} an deine E-Mail-Adresse %{email} erhalten.
-      title: Abbestellen
   media_attachments:
     validations:
       images_and_video: Es kann kein Video an einen Beitrag angehängt werden, der bereits Bilder enthält
       not_found: Medieninhalt(e) %{ids} nicht gefunden oder bereits an einen anderen Beitrag angehängt
-      not_ready: Dateien, die noch nicht verarbeitet wurden, können nicht angehängt werden. Versuche es gleich noch einmal!
+      not_ready: Dateien, die noch nicht verarbeitet wurden, können nicht angehängt werden. Warte einen Moment!
       too_many: Mehr als vier Dateien können nicht angehängt werden
   migrations:
     acct: umgezogen nach

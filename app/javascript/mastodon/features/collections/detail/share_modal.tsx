@@ -40,8 +40,8 @@ export const CollectionShareModal: React.FC<{
 }> = ({ collection, onClose }) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
-  const location = useLocation<{ newCollection?: boolean }>();
-  const isNew = !!location.state.newCollection;
+  const location = useLocation<{ newCollection?: boolean } | undefined>();
+  const isNew = !!location.state?.newCollection;
   const isOwnCollection = collection.account_id === me;
 
   const collectionLink = `${window.location.origin}/collections/${collection.id}`;
@@ -64,7 +64,7 @@ export const CollectionShareModal: React.FC<{
     onClose();
     dispatch(changeCompose(shareMessage));
     dispatch(focusCompose());
-  }, [collectionLink, dispatch, intl, isOwnCollection, onClose]);
+  }, [onClose, collectionLink, dispatch, intl, isOwnCollection]);
 
   return (
     <ModalShell>
