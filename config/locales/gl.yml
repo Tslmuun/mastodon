@@ -778,6 +778,8 @@ gl:
         administrator_description: As usuarias con este permiso poderán superar calquera restrición
         delete_user_data: Eliminar datos de usuarias
         delete_user_data_description: Permite eliminar datos doutras usuarias sen demoras
+        invite_bypass_approval: Invitar sen precisar revisión
+        invite_bypass_approval_description: Permitir que as persoas invitadas ao servidor por estas usuarias non precisen aprobación
         invite_users: Convidar usuarias
         invite_users_description: Permite que outras usuarias conviden a xente ao servidor
         manage_announcements: Xestionar anuncios
@@ -1229,7 +1231,6 @@ gl:
   application_mailer:
     notification_preferences: Cambiar preferencias de correo
     salutation: "%{name},"
-    settings: 'Cambiar preferencias de correo: %{link}'
     unsubscribe: Anular subscrición
     view: 'Vista:'
     view_profile: Ver perfil
@@ -1279,6 +1280,7 @@ gl:
     progress:
       confirm: Confirmar correo
       details: Detalles
+      list: Progreso da creación da conta
       review: A nosa revisión
       rules: Aceptar regras
     providers:
@@ -1294,6 +1296,7 @@ gl:
       invited_by: 'Podes unirte a %{domain} grazas ao convite que recibiches de parte de:'
       preamble: Son establecidas e aplicadas pola moderación de %{domain}.
       preamble_invited: Antes de continuar adica un minuto a ler as regras básicas establecidas para %{domain}.
+      read_more: Ler máis
       title: Algunhas regras básicas.
       title_invited: Convidáronte.
     security: Seguranza
@@ -1651,9 +1654,6 @@ gl:
     title: Historial de autenticación
   mail_subscriptions:
     unsubscribe:
-      action: Si, retirar subscrición
-      complete: Subscrición anulada
-      confirmation_html: Tes a certeza de querer retirar a subscrición a Mastodon en %{domain} para recibir %{type} no teu correo electrónico en %{email}? Poderás volver a subscribirte desde os <a href="%{settings_path}">axustes de notificacións por correo</a>.
       emails:
         notification_emails:
           favourite: notificacións de favorecidas
@@ -1661,9 +1661,6 @@ gl:
           follow_request: notificacións de solicitudes de seguimento
           mention: notificacións de mencións
           reblog: notificacións de promocións
-      resubscribe_html: Se por un erro eliminaches a subscrición, podes volver a subscribirte desde os <a href="%{settings_path}">axustes de notificacións por correo electrónico</a>.
-      success_html: Non vas recibir %{type} de Mastodon en %{domain} no enderezo %{email}.
-      title: Anular subscrición
   media_attachments:
     validations:
       images_and_video: Non podes anexar un vídeo a unha publicación que xa contén imaxes

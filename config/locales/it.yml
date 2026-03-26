@@ -778,6 +778,8 @@ it:
         administrator_description: Gli utenti con questo permesso saranno esentati da ogni permesso
         delete_user_data: Cancella dati utente
         delete_user_data_description: Consente agli utenti di eliminare subito i dati degli altri utenti
+        invite_bypass_approval: Invita utenti senza revisione
+        invite_bypass_approval_description: Permette alle persone invitate al server da questi utenti, di aggirare l'approvazione della moderazione
         invite_users: Invita Utenti
         invite_users_description: Consente agli utenti di invitare nuove persone su questo server
         manage_announcements: Gestisci Annunci
@@ -838,7 +840,7 @@ it:
         rules_hint: C'è un'area dedicata per le regole che i tuoi utenti dovrebbero rispettare.
         title: Info
       allow_referrer_origin:
-        desc: Quando i tuoi utenti cliccano su link a siti esterni, il loro browser potrebbe inviare l'indirizzo del tuo server Mastodon come referente. Disattiva questa opzione se ciò identificherebbe in modo univoco i tuoi utenti, ad esempio se si tratta di un server Mastodon personale.
+        desc: Quando i tuoi utenti cliccano su link a siti esterni, il loro browser potrebbe inviare l'indirizzo del tuo server Mastodon come referente. Disattiva questa opzione se ciò identificherebbe in modo univoco i tuoi utenti, per esempio, se si tratta di un server Mastodon personale.
         title: Consenti ai siti esterni di vedere il tuo server Mastodon come fonte di traffico
       appearance:
         preamble: Personalizza l'interfaccia web di Mastodon.
@@ -1229,7 +1231,6 @@ it:
   application_mailer:
     notification_preferences: Modifica le preferenze e-mail
     salutation: "%{name},"
-    settings: 'Modifica le preferenze e-mail: %{link}'
     unsubscribe: Disiscriviti
     view: 'Guarda:'
     view_profile: Mostra profilo
@@ -1279,6 +1280,7 @@ it:
     progress:
       confirm: Conferma l'e-mail
       details: I tuoi dettagli
+      list: Stato della registrazione
       review: La nostra revisione
       rules: Accetta le regole
     providers:
@@ -1294,6 +1296,7 @@ it:
       invited_by: 'Puoi unirti a %{domain} grazie all''invito che hai ricevuto da:'
       preamble: Questi sono impostati e applicati dai moderatori di %{domain}.
       preamble_invited: Prima di procedere, si prega di considerare le regole di base stabilite dai moderatori di %{domain}.
+      read_more: Scopri di più
       title: Alcune regole di base.
       title_invited: Sei stato/a invitato/a.
     security: Credenziali
@@ -1651,9 +1654,6 @@ it:
     title: Cronologia delle autenticazioni
   mail_subscriptions:
     unsubscribe:
-      action: Sì, annulla l'iscrizione
-      complete: Iscrizione annullata
-      confirmation_html: Si è sicuri di voler annullare l'iscrizione per non ricevere %{type} per Mastodon su %{domain} sulla tua e-mail %{email}? Puoi sempre reiscriverti dalle tue <a href="%{settings_path}">impostazioni di notifica e-mail</a>.
       emails:
         notification_emails:
           favourite: e-mail di notifica preferite
@@ -1661,9 +1661,6 @@ it:
           follow_request: segui le e-mail di richiesta
           mention: menziona le e-mail di notifica
           reblog: e-mail di notifica per le condivisioni
-      resubscribe_html: Se hai annullato l'iscrizione per errore, puoi reiscriverti tramite le <a href="%{settings_path}">impostazioni di notifica e-mail</a>.
-      success_html: Non riceverai più %{type} per Mastodon su %{domain} al tuo indirizzo e-mail %{email}.
-      title: Disiscriviti
   media_attachments:
     validations:
       images_and_video: Impossibile allegare video a un post che contiene già immagini

@@ -15,6 +15,7 @@
 #  avatar_remote_url             :string
 #  avatar_storage_schema_version :integer
 #  avatar_updated_at             :datetime
+#  collections_url               :string
 #  discoverable                  :boolean
 #  display_name                  :string           default(""), not null
 #  domain                        :string
@@ -192,8 +193,10 @@ class Account < ApplicationRecord
            :role,
            :locale,
            :shows_application?,
+           :email_subscriptions_enabled?,
            :prefers_noindex?,
            :time_zone,
+           :can?,
            to: :user,
            prefix: true,
            allow_nil: true

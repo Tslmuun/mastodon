@@ -267,6 +267,7 @@ pt-BR:
         demote_user_html: "%{name} rebaixou o usuário %{target}"
         destroy_announcement_html: "%{name} excluiu o anúncio %{target}"
         destroy_canonical_email_block_html: "%{name} desbloqueou o endereço e-mail com o hash %{target}"
+        destroy_collection_html: "%{name} removeu coleção de %{target}"
         destroy_custom_emoji_html: "%{name} apagou o emoji %{target}"
         destroy_domain_allow_html: "%{name} bloqueou federação com domínio %{target}"
         destroy_domain_block_html: "%{name} desbloqueou o domínio %{target}"
@@ -306,6 +307,7 @@ pt-BR:
         unsilence_account_html: "%{name} removeu a limitação da conta de %{target}"
         unsuspend_account_html: "%{name} removeu a suspenção da conta de %{target}"
         update_announcement_html: "%{name} atualizou o anúncio %{target}"
+        update_collection_html: "%{name} atualizou a coleção de %{target}"
         update_custom_emoji_html: "%{name} atualizou o emoji %{target}"
         update_domain_block_html: "%{name} atualizou o bloqueio de domínio de %{target}"
         update_ip_block_html: "%{name} alterou a regra para o IP %{target}"
@@ -1227,7 +1229,6 @@ pt-BR:
   application_mailer:
     notification_preferences: Alterar preferências de e-mail
     salutation: "%{name},"
-    settings: 'Alterar preferências de e-mail: %{link}'
     unsubscribe: Desinscrever
     view: 'Ver:'
     view_profile: Ver perfil
@@ -1649,9 +1650,6 @@ pt-BR:
     title: Histórico de autenticação
   mail_subscriptions:
     unsubscribe:
-      action: Sim, cancelar subscrição
-      complete: Desinscrito
-      confirmation_html: Tem certeza que deseja cancelar a assinatura de %{type} para Mastodon no %{domain} para o seu endereço de e-mail %{email}? Você sempre pode se inscrever novamente nas <a href="%{settings_path}">configurações de notificação de email</a>.
       emails:
         notification_emails:
           favourite: emails de notificação favoritos
@@ -1659,9 +1657,6 @@ pt-BR:
           follow_request: emails de seguidores pendentes
           mention: emails de notificação de menções
           reblog: emails de notificação de impulsos
-      resubscribe_html: Se você cancelou sua inscrição por engano, você pode se inscrever novamente em suas <a href="%{settings_path}"> configurações de notificações por e-mail</a>.
-      success_html: Você não mais receberá %{type} no Mastodon em %{domain} ao seu endereço de e-mail %{email}.
-      title: Cancelar inscrição
   media_attachments:
     validations:
       images_and_video: Não foi possível anexar um vídeo a uma publicação que já contém imagens
