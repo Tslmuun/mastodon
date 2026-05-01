@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_23_105645) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_23_141611) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -370,10 +370,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_23_105645) do
     t.integer "state", default: 0, null: false
     t.datetime "updated_at", null: false
     t.string "uri"
-    t.index ["account_id"], name: "index_collection_items_on_account_id"
+    t.index ["account_id", "collection_id"], name: "index_collection_items_on_account_id_and_collection_id", unique: true
     t.index ["approval_uri"], name: "index_collection_items_on_approval_uri", unique: true, where: "(approval_uri IS NOT NULL)"
     t.index ["collection_id"], name: "index_collection_items_on_collection_id"
-    t.index ["object_uri"], name: "index_collection_items_on_object_uri", unique: true, where: "(activity_uri IS NOT NULL)"
+    t.index ["state"], name: "index_collection_items_on_state", where: "(state = ANY (ARRAY[2, 3]))"
+    t.index ["uri"], name: "index_collection_items_on_uri", unique: true, where: "(uri IS NOT NULL)"
   end
 
   create_table "collection_reports", force: :cascade do |t|
@@ -400,8 +401,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_23_105645) do
     t.bigint "tag_id"
     t.datetime "updated_at", null: false
     t.string "uri"
+    t.string "url"
     t.index ["account_id"], name: "index_collections_on_account_id"
     t.index ["tag_id"], name: "index_collections_on_tag_id"
+    t.index ["uri"], name: "index_collections_on_uri", unique: true, where: "(uri IS NOT NULL)"
   end
 
   create_table "conversation_mutes", force: :cascade do |t|
@@ -1335,6 +1338,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_23_105645) do
   end
 
   create_table "user_roles", force: :cascade do |t|
+    t.integer "collection_limit", default: 10, null: false
     t.string "color", default: "", null: false
     t.datetime "created_at", null: false
     t.boolean "highlighted", default: false, null: false

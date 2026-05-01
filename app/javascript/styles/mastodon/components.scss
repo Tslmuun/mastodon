@@ -1499,8 +1499,9 @@ body > [data-popper-placement] {
   .media-gallery,
   .video-player,
   .audio-player,
-  .attachment-list {
-    margin-top: 16px;
+  .attachment-list,
+  .collection-preview {
+    margin-top: 14px;
   }
 
   &--in-thread {
@@ -1517,6 +1518,7 @@ body > [data-popper-placement] {
     & > .picture-in-picture-placeholder,
     & > .more-from-author,
     & > .status-card,
+    & > .collection-preview,
     & > .hashtag-bar,
     & > .content-warning,
     & > .filter-warning,
@@ -1787,7 +1789,8 @@ body > [data-popper-placement] {
 
   .media-gallery,
   .video-player,
-  .audio-player {
+  .audio-player,
+  .collection-preview {
     margin-top: 16px;
   }
 
@@ -2011,7 +2014,15 @@ body > [data-popper-placement] {
 }
 
 .account {
-  padding: 16px;
+  --account-outer-spacing: 16px;
+  --account-name-color: var(--color-text-primary);
+  --account-name-size: 14px;
+  --account-handle-color: var(--color-text-secondary);
+  --account-handle-size: 14px;
+  --account-bio-color: var(--color-text-secondary);
+  --account-bio-size: 14px;
+
+  padding: var(--account-outer-spacing);
 
   // Using :where keeps specificity low, allowing for existing
   // .account overrides to still apply
@@ -2024,10 +2035,10 @@ body > [data-popper-placement] {
     display: flex;
     align-items: center;
     gap: 10px;
-    color: var(--color-text-secondary);
+    color: var(--account-handle-color);
     overflow: hidden;
     text-decoration: none;
-    font-size: 14px;
+    font-size: var(--account-handle-size);
 
     .display-name {
       margin-bottom: 4px;
@@ -2035,7 +2046,8 @@ body > [data-popper-placement] {
 
     .display-name strong {
       display: inline;
-      color: var(--color-text-primary);
+      font-size: var(--account-name-size);
+      color: var(--account-name-color);
     }
   }
 
@@ -2173,7 +2185,7 @@ body > [data-popper-placement] {
   }
 
   &__note {
-    font-size: 14px;
+    font-size: var(--account-bio-size);
     font-weight: 400;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2182,7 +2194,7 @@ body > [data-popper-placement] {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     margin-top: 10px;
-    color: var(--color-text-secondary);
+    color: var(--account-bio-color);
 
     &--missing {
       color: var(--color-text-tertiary);
@@ -4094,16 +4106,6 @@ a.account__display-name {
   background: var(--color-bg-primary);
   padding: 4px 8px;
   margin: -6px 10px;
-}
-
-.column-subheading {
-  background: var(--color-bg-secondary);
-  color: var(--color-text-secondary);
-  padding: 8px 20px;
-  font-size: 12px;
-  font-weight: 500;
-  text-transform: uppercase;
-  cursor: default;
 }
 
 .getting-started__wrapper {
@@ -6368,7 +6370,7 @@ a.status-card {
 
   &__top {
     border-radius: 16px 16px 0 0;
-    border-bottom: 0;
+    border-bottom-width: 0;
     gap: 16px;
   }
 
@@ -8397,16 +8399,6 @@ noscript {
     }
   }
 
-  &__badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-
-    .account-role {
-      line-height: unset;
-    }
-  }
-
   &__tabs {
     display: flex;
     align-items: flex-start;
@@ -8690,20 +8682,6 @@ noscript {
       }
     }
   }
-
-  &__familiar-followers {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-block: 16px;
-    color: var(--color-text-secondary);
-
-    a:any-link {
-      font-weight: 500;
-      text-decoration: none;
-      color: var(--color-text-primary);
-    }
-  }
 }
 
 .account__contents {
@@ -8713,6 +8691,7 @@ noscript {
 .account__details {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   column-gap: 1em;
 }
 
@@ -10401,9 +10380,13 @@ noscript {
   padding: 0 4px;
 
   &:hover,
-  &:focus,
   &:active {
-    background: var(--color-bg-brand-softest);
+    background: rgb(from var(--color-text-inverted) r g b / 10%);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-text-brand-on-inverted);
+    outline-offset: 2px;
   }
 }
 
@@ -10677,23 +10660,7 @@ noscript {
           }
 
           &__source {
-            display: inline-flex;
-            align-items: center;
-            color: var(--color-text-tertiary);
-            gap: 4px;
-            overflow: hidden;
-            white-space: nowrap;
             cursor: help;
-
-            > span {
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
-
-            .icon {
-              width: 16px;
-              height: 16px;
-            }
           }
         }
 
@@ -10717,11 +10684,6 @@ noscript {
             font-size: 14px;
             color: var(--color-text-secondary);
           }
-        }
-
-        .verified-badge {
-          font-size: 14px;
-          max-width: 100%;
         }
 
         .button {
@@ -10897,12 +10859,6 @@ noscript {
     width: 16px;
     height: 16px;
     color: var(--color-text-secondary);
-  }
-
-  & > span {
-    display: flex;
-    align-items: center;
-    gap: 8px;
   }
 
   a {
