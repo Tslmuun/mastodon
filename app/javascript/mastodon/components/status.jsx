@@ -32,6 +32,7 @@ import StatusActionBar from './status_action_bar';
 import StatusContent from './status_content';
 import { StatusThreadLabel } from './status_thread_label';
 import { CollectionPreviewCard } from '../features/collections/components/collection_preview_card';
+import { compareUrls } from '../utils/compare_urls';
 
 const domParser = new DOMParser();
 
@@ -555,7 +556,7 @@ class Status extends ImmutablePureComponent {
       ).find((item) => compareUrls(item.get('url'), cardUrl));
   
       if (taggedCollection) {
-        media = <CollectionPreviewCard collection={taggedCollection} />;
+        media = <CollectionPreviewCard collection={taggedCollection.toJS()} headingLevel='h2' />;
       } else {
         media = (
           <Card
@@ -565,11 +566,11 @@ class Status extends ImmutablePureComponent {
           />
         );
       }
-    } else if (status.get('tagged_collections').size) {
+    } else if (status.get('tagged_collections').size && !status.get('quote')) {
       const firstLinkedCollection = status.get('tagged_collections').first();
       if (firstLinkedCollection) {
         media = (
-          <CollectionPreviewCard collection={firstLinkedCollection.toJS()} />
+          <CollectionPreviewCard collection={firstLinkedCollection.toJS()} headingLevel='h2' />
         );
       }
     }
