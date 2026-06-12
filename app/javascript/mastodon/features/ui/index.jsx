@@ -86,14 +86,13 @@ import {
   Quotes,
 } from './util/async-components';
 import { ColumnsContextProvider } from './util/columns_context';
-import { focusColumn, getFocusedItemIndex, focusItemSibling, focusFirstItem } from './util/focusUtils';
+import { focusColumn, getFocusedItemIndex, focusItemSibling, focusFirstItem, getFocusedColumnIndex } from './util/focusUtils';
 import { WrappedSwitch, WrappedRoute } from './util/react_router_helpers';
 import { CustomHomepage } from 'mastodon/features/custom_homepage';
 
 // Dummy import, to make sure that <Status /> ends up in the application bundle.
 // Without this it ends up in ~8 very commonly used bundles.
 import '../../components/status';
-import { areCollectionsEnabled } from '../collections/utils';
 import { getNavigationSkipLinkId, SkipLinks } from './components/skip_links';
 
 const messages = defineMessages({
@@ -188,7 +187,7 @@ class SwitchingColumnsArea extends PureComponent {
       <ColumnsContextProvider multiColumn={!singleColumn}>
         <ColumnsArea ref={this.setRef} singleColumn={singleColumn} domain={domain} minimalShell={!signedIn && landingPage === 'overview'}>
           <WrappedSwitch>
-            <Redirect from='/' to={{pathname: rootRedirect, state: this.props.location.state}} exact />
+            <Redirect from='/' to={{pathname: rootRedirect, state: {...this.props.location.state, focusTarget: false}}} exact />
 
             {singleColumn ? <Redirect from='/deck' to='/home' exact /> : null}
             {singleColumn && pathName.startsWith('/deck/') ? <Redirect from={pathName} to={{...this.props.location, pathname: pathName.slice(5)}} /> : null}
@@ -235,13 +234,9 @@ class SwitchingColumnsArea extends PureComponent {
 
             <WrappedRoute path={['/@:acct', '/accounts/:id']} exact component={AccountTimeline} content={children} />
             <WrappedRoute path={['/@:acct/featured', '/accounts/:id/featured']} component={AccountFeatured} content={children} />
-            {areCollectionsEnabled() &&
-              [
-                <WrappedRoute path={['/@:acct/collections']} component={Collections} content={children} key='collections-list' />,
-                <WrappedRoute path={['/collections/new', '/collections/:id/edit']} component={CollectionsEditor} content={children} key='collections-editor' />,
-                <WrappedRoute path='/collections/:id' component={CollectionDetail} content={children} key='collections-detail' />,
-              ]
-            }
+            <WrappedRoute path={['/@:acct/collections']} component={Collections} content={children} key='collections-list' />
+            <WrappedRoute path={['/collections/new', '/collections/:id/edit']} component={CollectionsEditor} content={children} key='collections-editor' />
+            <WrappedRoute path='/collections/:id' component={CollectionDetail} content={children} key='collections-detail' />
             <WrappedRoute path='/@:acct/tagged/:tagged?' exact component={AccountTimeline} content={children} />
             <WrappedRoute path={['/@:acct/with_replies', '/accounts/:id/with_replies']} component={AccountTimeline} content={children} componentParams={{ withReplies: true }} />
             <WrappedRoute path={['/accounts/:id/followers', '/users/:acct/followers', '/@:acct/followers']} component={Followers} content={children} />
@@ -511,18 +506,18 @@ class UI extends PureComponent {
   handleMoveUp = () => {
     const currentItemIndex = getFocusedItemIndex();
     if (currentItemIndex === -1) {
-      focusColumn(1);
+      return focusColumn(getFocusedColumnIndex());
     } else {
-      focusItemSibling(currentItemIndex, -1);
+      return focusItemSibling(currentItemIndex, -1);
     }
   };
 
   handleMoveDown = () => {
     const currentItemIndex = getFocusedItemIndex();
     if (currentItemIndex === -1) {
-      focusColumn(1);
+      return focusColumn(getFocusedColumnIndex());
     } else {
-      focusItemSibling(currentItemIndex, 1);
+      return focusItemSibling(currentItemIndex, 1);
     }
   };
 

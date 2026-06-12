@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
-class Api::V1Alpha::CollectionsController < Api::BaseController
+class Api::V1::CollectionsController < Api::BaseController
   include Authorization
+  include DeprecationConcern
 
   DEFAULT_COLLECTIONS_LIMIT = 40
+  MAX_COLLECTIONS_LIMIT = 100
 
   rescue_from ActiveRecord::RecordInvalid, Mastodon::ValidationError do |e|
     render json: { error: ValidationErrorFormatter.new(e).as_json }, status: 422
   end
 
-  before_action :check_feature_enabled
+  deprecate_api '2026-06-10', if: :alpha_path?
 
   before_action -> { authorize_if_got_token! :read, :'read:collections' }, only: [:index, :show]
   before_action -> { doorkeeper_authorize! :write, :'write:collections' }, only: [:create, :update, :destroy]
@@ -75,7 +77,7 @@ class Api::V1Alpha::CollectionsController < Api::BaseController
       .with_tag
       .order(created_at: :desc)
       .offset(offset_param)
-      .limit(limit_param(DEFAULT_COLLECTIONS_LIMIT))
+      .limit(limit_param(DEFAULT_COLLECTIONS_LIMIT, MAX_COLLECTIONS_LIMIT))
     @collections = @collections.discoverable unless @account == current_account
   end
 
@@ -91,20 +93,16 @@ class Api::V1Alpha::CollectionsController < Api::BaseController
     params.permit(:name, :description, :language, :sensitive, :discoverable, :tag_name)
   end
 
-  def check_feature_enabled
-    raise ActionController::RoutingError unless Mastodon::Feature.collections_enabled?
-  end
-
   def next_path
     return unless records_continue?
 
-    api_v1_alpha_account_collections_url(@account, pagination_params(offset: offset_param + limit_param(DEFAULT_COLLECTIONS_LIMIT)))
+    api_v1_account_collections_url(@account, pagination_params(offset: offset_param + limit_param(DEFAULT_COLLECTIONS_LIMIT)))
   end
 
   def prev_path
     return if offset_param.zero?
 
-    api_v1_alpha_account_collections_url(@account, pagination_params(offset: offset_param - limit_param(DEFAULT_COLLECTIONS_LIMIT)))
+    api_v1_account_collections_url(@account, pagination_params(offset: offset_param - limit_param(DEFAULT_COLLECTIONS_LIMIT)))
   end
 
   def records_continue?

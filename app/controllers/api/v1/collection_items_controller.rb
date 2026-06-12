@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-class Api::V1Alpha::CollectionItemsController < Api::BaseController
+class Api::V1::CollectionItemsController < Api::BaseController
   include Authorization
+  include DeprecationConcern
 
-  before_action :check_feature_enabled
+  deprecate_api '2026-06-10', if: :alpha_path?
 
   before_action -> { doorkeeper_authorize! :write, :'write:collections' }
 
@@ -54,9 +55,5 @@ class Api::V1Alpha::CollectionItemsController < Api::BaseController
 
   def set_collection_item
     @collection_item = @collection.collection_items.find(params[:id])
-  end
-
-  def check_feature_enabled
-    raise ActionController::RoutingError unless Mastodon::Feature.collections_enabled?
   end
 end

@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Api::V1Alpha::Collections', feature: :collections do
+RSpec.describe 'Api::V1::Collections' do
   include_context 'with API authentication', oauth_scopes: 'read:collections write:collections'
 
-  describe 'GET /api/v1_alpha/accounts/:account_id/collections' do
+  describe 'GET /api/v1/accounts/:account_id/collections' do
     subject do
-      get "/api/v1_alpha/accounts/#{account.id}/collections", headers: headers, params: params
+      get "/api/v1/accounts/#{account.id}/collections", headers: headers, params: params
     end
 
     let(:params) { {} }
@@ -23,6 +23,14 @@ RSpec.describe 'Api::V1Alpha::Collections', feature: :collections do
       expect(response.parsed_body[:collections].size).to eq 3
     end
 
+    it 'features a deprecation header when requested via the alpha route' do
+      subject
+      expect(response.headers['Deprecation']).to be_nil
+
+      get "/api/v1_alpha/accounts/#{account.id}/collections", headers: headers, params: params
+      expect(response.headers['Deprecation']).to eq '@1781049600'
+    end
+
     context 'with limit param' do
       let(:params) { { limit: '1' } }
 
@@ -34,7 +42,7 @@ RSpec.describe 'Api::V1Alpha::Collections', feature: :collections do
 
         expect(response)
           .to include_pagination_headers(
-            next: api_v1_alpha_account_collections_url(account, limit: 1, offset: 1)
+            next: api_v1_account_collections_url(account, limit: 1, offset: 1)
           )
       end
     end
@@ -50,8 +58,8 @@ RSpec.describe 'Api::V1Alpha::Collections', feature: :collections do
 
         expect(response)
           .to include_pagination_headers(
-            prev: api_v1_alpha_account_collections_url(account, limit: 1, offset: 0),
-            next: api_v1_alpha_account_collections_url(account, limit: 1, offset: 2)
+            prev: api_v1_account_collections_url(account, limit: 1, offset: 0),
+            next: api_v1_account_collections_url(account, limit: 1, offset: 2)
           )
       end
     end
@@ -96,9 +104,9 @@ RSpec.describe 'Api::V1Alpha::Collections', feature: :collections do
     end
   end
 
-  describe 'GET /api/v1_alpha/collections/:id' do
+  describe 'GET /api/v1/collections/:id' do
     subject do
-      get "/api/v1_alpha/collections/#{collection.id}", headers: headers
+      get "/api/v1/collections/#{collection.id}", headers: headers
     end
 
     let(:collection) { Fabricate(:collection) }
@@ -140,9 +148,9 @@ RSpec.describe 'Api::V1Alpha::Collections', feature: :collections do
     end
   end
 
-  describe 'POST /api/v1_alpha/collections' do
+  describe 'POST /api/v1/collections' do
     subject do
-      post '/api/v1_alpha/collections', headers: headers, params: params
+      post '/api/v1/collections', headers: headers, params: params
     end
 
     let(:params) { {} }
@@ -187,9 +195,9 @@ RSpec.describe 'Api::V1Alpha::Collections', feature: :collections do
     end
   end
 
-  describe 'PATCH /api/v1_alpha/collections/:id' do
+  describe 'PATCH /api/v1/collections/:id' do
     subject do
-      patch "/api/v1_alpha/collections/#{collection.id}", headers: headers, params: params
+      patch "/api/v1/collections/#{collection.id}", headers: headers, params: params
     end
 
     let(:collection) { Fabricate(:collection) }
@@ -256,9 +264,9 @@ RSpec.describe 'Api::V1Alpha::Collections', feature: :collections do
     end
   end
 
-  describe 'DELETE /api/v1_alpha/collections/:id' do
+  describe 'DELETE /api/v1/collections/:id' do
     subject do
-      delete "/api/v1_alpha/collections/#{collection.id}", headers: headers
+      delete "/api/v1/collections/#{collection.id}", headers: headers
     end
 
     let(:collection) { Fabricate(:collection) }
