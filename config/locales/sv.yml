@@ -730,6 +730,8 @@ sv:
       new:
         title: Skapa ny IP-regel
       no_ip_block_selected: Inga IP-regler ändrades då inga var valda
+      reset: Återställ
+      search: Sök
       title: IP-regler
     relationships:
       title: "%{acct}s relationer"
@@ -1933,7 +1935,6 @@ sv:
     next: Nästa
     older: Äldre
     prev: Tidigare
-    truncate: "&hellip;"
   polls:
     errors:
       already_voted: Du har redan röstat på den här undersökningen
