@@ -7,3 +7,4 @@ tangerineui-granite: styles/tangerineui-granite.scss
 mastodon-bird-ui-auto: styles/mastodon-bird-ui-auto.scss
 mastodon-bird-ui-accessible: styles/mastodon-bird-ui-accessible.scss
 mastodon-bird-ui-accessible-plus: styles/mastodon-bird-ui-accessible-plus.scss
+bing-blue-gradient: styles/bing-blue-gradient/bing-blue-gradient.scss
