@@ -46,12 +46,6 @@ module ThemeHelper
     )
   end
 
-  def bing_background_script
-    return unless current_theme == 'bing-blue-gradient'
-
-    javascript_inline_tag 'bing-background.js'
-  end
-  
   def current_theme
     available_themes = Themes.instance.names
 
