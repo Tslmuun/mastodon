@@ -303,3 +303,11 @@
   }
 }
 
+
+// Bird UI / third-party theme compatibility: some themes replace .icon-close
+// with a background-image globally, which would render a duplicate dark cross
+// on filter chips (chips already render the native close SVG).
+// Keep the native SVG so the chip has one theme-aware close glyph.
+.search-filter-bar__chip .icon-close {
+  background-image: none;
+}
