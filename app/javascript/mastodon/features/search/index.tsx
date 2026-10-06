@@ -18,6 +18,7 @@ import TagIcon from '@/material-icons/400-24px/tag.svg?react';
 import { submitSearch, expandSearch } from 'mastodon/actions/search';
 import type { ApiSearchType } from 'mastodon/api_types/search';
 import { Account } from 'mastodon/components/account';
+import { Button } from 'mastodon/components/button';
 import { CompatibilityHashtag as Hashtag } from 'mastodon/components/hashtag';
 import { Icon } from 'mastodon/components/icon';
 import ScrollableList from 'mastodon/components/scrollable_list';
@@ -28,12 +29,27 @@ import type { Hashtag as HashtagType } from 'mastodon/models/tags';
 import { useAppDispatch, useAppSelector } from 'mastodon/store';
 
 import { CollectionListItem } from '../collections/components/collection_list_item';
+import { SearchFilterBar } from './components/search_filter_bar';
 import exploreRedesignClasses from '../explore/redesign.module.scss';
 
 import { SearchSection } from './components/search_section';
+import { clearSearchFilters, getSearchFilters } from './utils/search_query';
 
 const messages = defineMessages({
   title: { id: 'search_results.title', defaultMessage: 'Search for "{q}"' },
+  filteredNoResultsTitle: {
+    id: 'search_results.filtered_no_results_title',
+    defaultMessage: 'No posts match these filters',
+  },
+  filteredNoResultsDescription: {
+    id: 'search_results.filtered_no_results_description',
+    defaultMessage:
+      'Remove a filter above, or clear all filters to search again with the same keywords.',
+  },
+  clearFilters: {
+    id: 'search_results.clear_filters',
+    defaultMessage: 'Clear filters and search again',
+  },
 });
 
 const INITIAL_PAGE_LIMIT = 10;
@@ -79,13 +95,16 @@ export const SearchResults: React.FC<{ multiColumn: boolean }> = ({
   multiColumn,
 }) => {
   const intl = useIntl();
-  const [q] = useSearchParam('q');
+  const [q, setQuery] = useSearchParam('q');
   const [type, setType] = useSearchParam('type');
   const isLoading = useAppSelector((state) => state.search.loading);
   const results = useAppSelector((state) => state.search.results);
   const dispatch = useAppDispatch();
   const mappedType = typeFromParam(type);
   const trimmedValue = q?.trim() ?? '';
+  const searchFilters = getSearchFilters(trimmedValue);
+  const hasActiveStatusFilters =
+    mappedType === 'statuses' && searchFilters.hasActiveFilters;
 
   useEffect(() => {
     if (trimmedValue.length > 0) {
@@ -113,6 +132,17 @@ export const SearchResults: React.FC<{ multiColumn: boolean }> = ({
   const handleSelectStatuses = useCallback(() => {
     setType('statuses');
   }, [setType]);
+
+  const handleFilterQueryChange = useCallback(
+    (query: string) => {
+      setQuery(query);
+    },
+    [setQuery],
+  );
+
+  const handleClearFilters = useCallback(() => {
+    setQuery(clearSearchFilters(trimmedValue));
+  }, [setQuery, trimmedValue]);
 
   const handleLoadMore = useCallback(() => {
     if (mappedType !== 'all') {
@@ -291,6 +321,13 @@ export const SearchResults: React.FC<{ multiColumn: boolean }> = ({
           />
         </button>
       </div>
+
+      {mappedType === 'statuses' && (
+        <SearchFilterBar
+          query={trimmedValue}
+          onQueryChange={handleFilterQueryChange}
+        />
+      )}
     </>
   );
 
@@ -323,10 +360,24 @@ export const SearchResults: React.FC<{ multiColumn: boolean }> = ({
           hasMore={hasMore}
           emptyMessage={
             trimmedValue.length > 0 ? (
-              <FormattedMessage
-                id='search_results.no_results'
-                defaultMessage='No results.'
-              />
+              hasActiveStatusFilters ? (
+                <span className='search-filter-empty-state'>
+                  <strong className='search-filter-empty-state__title'>
+                    {intl.formatMessage(messages.filteredNoResultsTitle)}
+                  </strong>
+                  <span className='search-filter-empty-state__description'>
+                    {intl.formatMessage(messages.filteredNoResultsDescription)}
+                  </span>
+                  <Button onClick={handleClearFilters}>
+                    {intl.formatMessage(messages.clearFilters)}
+                  </Button>
+                </span>
+              ) : (
+                <FormattedMessage
+                  id='search_results.no_results'
+                  defaultMessage='No results.'
+                />
+              )
             ) : (
               <FormattedMessage
                 id='search_results.no_search_yet'
