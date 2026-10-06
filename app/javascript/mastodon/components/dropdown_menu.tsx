@@ -57,6 +57,7 @@ interface DropdownMenuProps<Item = MenuItem> {
   renderItem?: RenderItemFn<Item>;
   renderHeader?: RenderHeaderFn<Item>;
   onItemClick?: ItemClickFn<Item>;
+  closeOnSelect?: boolean;
 }
 
 export const DropdownMenuItemContent: React.FC<{ item: MenuItem }> = ({
@@ -94,6 +95,7 @@ export const DropdownMenu = <Item = MenuItem,>({
   renderItem,
   renderHeader,
   onItemClick,
+  closeOnSelect = true,
 }: DropdownMenuProps<Item>) => {
   const nodeRef = useRef<HTMLDivElement>(null);
 
@@ -184,7 +186,9 @@ export const DropdownMenu = <Item = MenuItem,>({
         return;
       }
 
-      onClose();
+      if (closeOnSelect) {
+        onClose();
+      }
 
       if (typeof onItemClick === 'function') {
         e.preventDefault();
@@ -194,7 +198,7 @@ export const DropdownMenu = <Item = MenuItem,>({
         item.action(e);
       }
     },
-    [onClose, onItemClick, items],
+    [closeOnSelect, onClose, onItemClick, items],
   );
 
   const nativeRenderItem = (option: Item, i: number) => {
@@ -206,7 +210,7 @@ export const DropdownMenu = <Item = MenuItem,>({
       return <li key={`sep-${i}`} className='dropdown-menu__separator' />;
     }
 
-    const { text, highlighted, disabled, dangerous } = option;
+    const { text, highlighted, checked, disabled, dangerous } = option;
 
     let element: React.ReactElement;
 
@@ -216,6 +220,8 @@ export const DropdownMenu = <Item = MenuItem,>({
           onClick={handleItemClick}
           data-index={i}
           aria-disabled={disabled}
+          aria-checked={checked}
+          role={checked === undefined ? undefined : 'menuitemcheckbox'}
           type='button'
         >
           <DropdownMenuItemContent item={option} />
@@ -314,6 +320,7 @@ interface DropdownProps<Item extends object | null = MenuItem> {
     | ((event: React.MouseEvent | React.KeyboardEvent) => void)
     | ((event: React.MouseEvent | React.KeyboardEvent) => boolean);
   onItemClick?: ItemClickFn<Item>;
+  closeOnSelect?: boolean;
 }
 
 export const Dropdown = <Item extends object | null = MenuItem>({
@@ -336,6 +343,7 @@ export const Dropdown = <Item extends object | null = MenuItem>({
   renderHeader,
   onOpen,
   onItemClick,
+  closeOnSelect = true,
   scrollKey,
 }: DropdownProps<Item>) => {
   const dispatch = useAppDispatch();
@@ -374,7 +382,9 @@ export const Dropdown = <Item extends object | null = MenuItem>({
       const i = Number(e.currentTarget.getAttribute('data-index'));
       const item = items?.[i];
 
-      handleClose();
+      if (closeOnSelect) {
+        handleClose();
+      }
 
       if (!item) {
         return;
@@ -388,7 +398,7 @@ export const Dropdown = <Item extends object | null = MenuItem>({
         item.action(e);
       }
     },
-    [handleClose, onItemClick, items],
+    [closeOnSelect, handleClose, onItemClick, items],
   );
 
   const isKeypressRef = useRef(false);
@@ -529,6 +539,7 @@ export const Dropdown = <Item extends object | null = MenuItem>({
                 renderItem={renderItem}
                 renderHeader={renderHeader}
                 onItemClick={onItemClick}
+                closeOnSelect={closeOnSelect}
               />
             </div>
           </div>
