@@ -174,6 +174,7 @@ export const StatusRedesign: React.FC<StatusRedesignProps> = ({
       <StatusHotkeys
         {...hotkeysProps}
         onClick={onOpenClick}
+        onAuxClick={onOpenClick}
         className={classNames(
           classes.root,
           variant === 'feed' && classes.variantFeed,
@@ -256,9 +257,9 @@ export const StatusRedesign: React.FC<StatusRedesignProps> = ({
             {showActions && !isQuotedPost && (
               <StatusActionBar
                 statusId={status.id}
+                reblogId={parent?.id}
                 withDismiss={withDismiss}
                 withCounters={withCounters}
-                onlyResponses={variant === 'page'}
               />
             )}
 
