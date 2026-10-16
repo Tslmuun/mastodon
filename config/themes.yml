@@ -1,4 +1,12 @@
-default: styles/application.scss
+default:
+  path: styles/application.scss
+  colors:
+    - indigo
+    - lime
+    - pink
+    - orange
+    - cyan
+
 tangerineui: styles/tangerineui.scss
 tangerineui-purple: styles/tangerineui-purple.scss
 tangerineui-cherry: styles/tangerineui-cherry.scss

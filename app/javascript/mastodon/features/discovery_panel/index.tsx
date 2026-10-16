@@ -12,6 +12,9 @@ import classes from './styles.module.scss';
  */
 const ROUTES_WITHOUT_SEARCH_BAR = [
   '/explore',
+  '/explore/tags',
+  '/explore/suggestions',
+  '/explore/links',
   '/search',
   '/start',
   '/start/profile',
@@ -23,7 +26,7 @@ const ROUTES_WITHOUT_SEARCH_BAR = [
   '/collections/:id/edit/details',
 ];
 
-export const SearchPanel: React.FC = () => {
+export const DiscoveryPanel: React.FC = () => {
   const { signedIn } = useIdentity();
 
   const isRouteWithSearchBar = !useRouteMatch({
