@@ -9,13 +9,18 @@
 
 /* 📄 Meta */
 :root {
-    --version: "v2.6.5";
+    --version: "v3.0.0-beta.2";
 
     --variant-name: "Granite";
     --variant-emoji: "\1FAA8\00A0";
     --variant: var(--variant-emoji) var(--variant-name);
 
     --meta: 'Tangerine UI for Mastodon: ' var(--version) ' \00B7 ' var(--variant);
+}
+
+/* 🌀 Motion */
+:root {
+    --tng-spring: linear(0, 0.039, 0.139, 0.276, 0.429, 0.583, 0.726, 0.85, 0.951, 1.029, 1.083, 1.116, 1.131, 1.133, 1.124, 1.108, 1.089, 1.068, 1.048, 1.03, 1.014, 1.002, 0.993, 0.987, 0.983, 0.982, 0.983, 0.984, 0.986, 0.989, 0.992, 0.995, 0.997, 0.999, 1, 1.001, 1.002, 1.002, 1.002, 1.002, 1);
 }
 
 /* 🎨 Colors */
@@ -152,6 +157,31 @@
     --color-border-media: rgba(255, 255, 255, 0.15);
 }
 
+:root:root:is([data-theme-color], :has([class*="_comp_columns_area_"])) {
+    --base-color-bg: var(--color-content-bg);
+    --base-color-bg-desktop: var(--color-bg);
+    --base-color-fg: var(--color-content-fg);
+    --base-color-fg-on-accent: var(--color-accent-fg);
+    --base-color-accent: var(--color-accent);
+    --base-color-bg-accent: var(--color-accent);
+    --base-color-fg-accent: var(--color-accent);
+    --base-color-danger: var(--color-reject);
+    --base-highlight-strength: 10%;
+    --color-bg-desktop: var(--color-bg);
+    --color-bg-highlight: color-mix(in srgb, var(--color-accent) 10%, transparent);
+    --color-border-strong: var(--color-fg);
+    --color-border-input: var(--color-lines);
+    --shadow-strength-primary: 12%;
+    --color-shadow-primary: color-mix(in srgb, #000000 var(--shadow-strength-primary), transparent);
+    --overlay-icon-shadow: drop-shadow(0 0 8px var(--color-shadow-primary));
+    --color-graph-primary-stroke: var(--color-accent);
+    --color-graph-primary-fill: var(--color-content-bg-focus);
+    --color-graph-warning-stroke: var(--color-warning);
+    --color-graph-warning-fill: var(--color-warning-bg);
+    --color-graph-disabled-stroke: var(--color-fg-muted);
+    --color-graph-disabled-fill: var(--color-secondary-bg);
+}
+
 /* A11y: dark-mode default-theme contrast fixes */
 :root:root[data-color-scheme="dark"],
 :root:root:not([data-color-scheme]) {
@@ -163,6 +193,7 @@
         --color-bg-error-base: #c0203c;
         --color-bg-warning-base: #7a4d00;
         --color-bg-success-base: #0a6e38;
+        --shadow-strength-primary: 45%;
 }
 
 /* ♿ High-contrast mode (OS prefers-contrast + Mastodon data-contrast) */
@@ -241,17 +272,51 @@
     --color-bg-success-base: #0a5c2f;
     }
 
+/* ♿ High-contrast mode: theme variables */
+@media (prefers-contrast: more) {
+    :root:root {
+        --color-fg-muted: #1f1f1f;
+        --color-content-fg-muted: #2f2f2f;
+        --color-content-fg: #000000;
+        --color-lines: #4d4d4d;
+    }
+}
+:root:root[data-contrast='high'] {
+    --color-fg-muted: #1f1f1f;
+    --color-content-fg-muted: #2f2f2f;
+    --color-content-fg: #000000;
+    --color-lines: #4d4d4d;
+}
+@media (prefers-contrast: more) {
+    :root:root[data-color-scheme="dark"],
+    :root:root:not([data-color-scheme]) {
+        --color-fg-muted: #e6e6e6;
+        --color-content-fg-muted: #d4d4d4;
+        --color-content-fg: #ffffff;
+        --color-lines: #999999;
+    }
+}
+:root:root[data-color-scheme="dark"][data-contrast='high'],
+:root:root:not([data-color-scheme])[data-contrast='high'] {
+    --color-fg-muted: #e6e6e6;
+    --color-content-fg-muted: #d4d4d4;
+    --color-content-fg: #ffffff;
+    --color-lines: #999999;
+}
+
 /* Collections icon variables (added for Mastodon 4.6) */
 :root {
     --icon-collections: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%232a2d37' viewBox='0 0 256 256'%3E%3Cpath d='M224,144H136a8,8,0,0,0-8,8v56a8,8,0,0,0,8,8h88a8,8,0,0,0,8-8V152A8,8,0,0,0,224,144Zm-8,56H144V160h72ZM71.59,61.47a8,8,0,0,0-15.18,0l-40,120A8,8,0,0,0,24,192h80a8,8,0,0,0,7.59-10.53ZM35.1,176,64,89.3,92.9,176ZM208,76a52,52,0,1,0-52,52A52.06,52.06,0,0,0,208,76Zm-88,0a36,36,0,1,1,36,36A36,36,0,0,1,120,76Z'/%3E%3C/svg%3E");
     --icon-collections-accent: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%231f2127' viewBox='0 0 256 256'%3E%3Cpath d='M64,64l40,120H24ZM200,76a44,44,0,1,0-44,44A44,44,0,0,0,200,76Zm-64,76v56h88V152Z' opacity='0.2'/%3E%3Cpath d='M224,144H136a8,8,0,0,0-8,8v56a8,8,0,0,0,8,8h88a8,8,0,0,0,8-8V152A8,8,0,0,0,224,144Zm-8,56H144V160h72ZM71.59,61.47a8,8,0,0,0-15.18,0l-40,120A8,8,0,0,0,24,192h80a8,8,0,0,0,7.59-10.53ZM35.1,176,64,89.3,92.9,176ZM208,76a52,52,0,1,0-52,52A52.06,52.06,0,0,0,208,76Zm-88,0a36,36,0,1,1,36,36A36,36,0,0,1,120,76Z'/%3E%3C/svg%3E");
     --icon-collections-accent-active: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%231f2127' viewBox='0 0 256 256'%3E%3Cpath d='M111.59,181.47A8,8,0,0,1,104,192H24a8,8,0,0,1-7.59-10.53l40-120a8,8,0,0,1,15.18,0ZM208,76a52,52,0,1,0-52,52A52.06,52.06,0,0,0,208,76Zm16,68H136a8,8,0,0,0-8,8v56a8,8,0,0,0,8,8h88a8,8,0,0,0,8-8V152A8,8,0,0,0,224,144Z'/%3E%3C/svg%3E");
+    --icon-collections-gray: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%232a2d37' viewBox='0 0 256 256'%3E%3Cpath d='M64,64l40,120H24ZM200,76a44,44,0,1,0-44,44A44,44,0,0,0,200,76Zm-64,76v56h88V152Z' opacity='0.2'/%3E%3Cpath d='M224,144H136a8,8,0,0,0-8,8v56a8,8,0,0,0,8,8h88a8,8,0,0,0,8-8V152A8,8,0,0,0,224,144Zm-8,56H144V160h72ZM71.59,61.47a8,8,0,0,0-15.18,0l-40,120A8,8,0,0,0,24,192h80a8,8,0,0,0,7.59-10.53ZM35.1,176,64,89.3,92.9,176ZM208,76a52,52,0,1,0-52,52A52.06,52.06,0,0,0,208,76Zm-88,0a36,36,0,1,1,36,36A36,36,0,0,1,120,76Z'/%3E%3C/svg%3E");
 }
 :root[data-color-scheme="dark"],
 :root:not([data-color-scheme]) {
         --icon-collections: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%23ffffff' viewBox='0 0 256 256'%3E%3Cpath d='M224,144H136a8,8,0,0,0-8,8v56a8,8,0,0,0,8,8h88a8,8,0,0,0,8-8V152A8,8,0,0,0,224,144Zm-8,56H144V160h72ZM71.59,61.47a8,8,0,0,0-15.18,0l-40,120A8,8,0,0,0,24,192h80a8,8,0,0,0,7.59-10.53ZM35.1,176,64,89.3,92.9,176ZM208,76a52,52,0,1,0-52,52A52.06,52.06,0,0,0,208,76Zm-88,0a36,36,0,1,1,36,36A36,36,0,0,1,120,76Z'/%3E%3C/svg%3E");
         --icon-collections-accent: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%23c9cdd6' viewBox='0 0 256 256'%3E%3Cpath d='M64,64l40,120H24ZM200,76a44,44,0,1,0-44,44A44,44,0,0,0,200,76Zm-64,76v56h88V152Z' opacity='0.2'/%3E%3Cpath d='M224,144H136a8,8,0,0,0-8,8v56a8,8,0,0,0,8,8h88a8,8,0,0,0,8-8V152A8,8,0,0,0,224,144Zm-8,56H144V160h72ZM71.59,61.47a8,8,0,0,0-15.18,0l-40,120A8,8,0,0,0,24,192h80a8,8,0,0,0,7.59-10.53ZM35.1,176,64,89.3,92.9,176ZM208,76a52,52,0,1,0-52,52A52.06,52.06,0,0,0,208,76Zm-88,0a36,36,0,1,1,36,36A36,36,0,0,1,120,76Z'/%3E%3C/svg%3E");
         --icon-collections-accent-active: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%23c9cdd6' viewBox='0 0 256 256'%3E%3Cpath d='M111.59,181.47A8,8,0,0,1,104,192H24a8,8,0,0,1-7.59-10.53l40-120a8,8,0,0,1,15.18,0ZM208,76a52,52,0,1,0-52,52A52.06,52.06,0,0,0,208,76Zm16,68H136a8,8,0,0,0-8,8v56a8,8,0,0,0,8,8h88a8,8,0,0,0,8-8V152A8,8,0,0,0,224,144Z'/%3E%3C/svg%3E");
+        --icon-collections-gray: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%23ffffff' viewBox='0 0 256 256'%3E%3Cpath d='M64,64l40,120H24ZM200,76a44,44,0,1,0-44,44A44,44,0,0,0,200,76Zm-64,76v56h88V152Z' opacity='0.2'/%3E%3Cpath d='M224,144H136a8,8,0,0,0-8,8v56a8,8,0,0,0,8,8h88a8,8,0,0,0,8-8V152A8,8,0,0,0,224,144Zm-8,56H144V160h72ZM71.59,61.47a8,8,0,0,0-15.18,0l-40,120A8,8,0,0,0,24,192h80a8,8,0,0,0,7.59-10.53ZM35.1,176,64,89.3,92.9,176ZM208,76a52,52,0,1,0-52,52A52.06,52.06,0,0,0,208,76Zm-88,0a36,36,0,1,1,36,36A36,36,0,0,1,120,76Z'/%3E%3C/svg%3E");
     }
 .app-body {
     --background-color: var(--color-bg);
@@ -278,6 +343,8 @@
     --icon-star: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%232a2d37' viewBox='0 0 256 256'%3E%3Cpath d='M243,96a20.33,20.33,0,0,0-17.74-14l-56.59-4.57L146.83,24.62a20.36,20.36,0,0,0-37.66,0L87.35,77.44,30.76,82A20.45,20.45,0,0,0,19.1,117.88l43.18,37.24-13.2,55.7A20.37,20.37,0,0,0,79.57,233L128,203.19,176.43,233a20.39,20.39,0,0,0,30.49-22.15l-13.2-55.7,43.18-37.24A20.43,20.43,0,0,0,243,96ZM172.53,141.7a12,12,0,0,0-3.84,11.86L181.58,208l-47.29-29.08a12,12,0,0,0-12.58,0L74.42,208l12.89-54.4a12,12,0,0,0-3.84-11.86L41.2,105.24l55.4-4.47a12,12,0,0,0,10.13-7.38L128,41.89l21.27,51.5a12,12,0,0,0,10.13,7.38l55.4,4.47Z'%3E%3C/path%3E%3C/svg%3E");
     --icon-star-accent: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%231f2127' viewBox='0 0 256 256'%3E%3Cpath d='M229.06,108.79l-48.7,42,14.88,62.79a8.4,8.4,0,0,1-12.52,9.17L128,189.09,73.28,222.74a8.4,8.4,0,0,1-12.52-9.17l14.88-62.79-48.7-42A8.46,8.46,0,0,1,31.73,94L95.64,88.8l24.62-59.6a8.36,8.36,0,0,1,15.48,0l24.62,59.6L224.27,94A8.46,8.46,0,0,1,229.06,108.79Z' opacity='0.2'%3E%3C/path%3E%3Cpath d='M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z'%3E%3C/path%3E%3C/svg%3E");
     --icon-star-active: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%23fec700' viewBox='0 0 256 256'%3E%3Cpath d='M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z'%3E%3C/path%3E%3C/svg%3E");
+    --icon-heart-accent: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%231f2127' viewBox='0 0 256 256'%3E%3Cpath d='M178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32ZM128,206.8C109.74,196.16,32,147.69,32,94A46.06,46.06,0,0,1,78,48c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,147.61,146.24,196.15,128,206.8Z'%3E%3C/path%3E%3C/svg%3E");
+    --icon-heart-fill-accent: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%231f2127' viewBox='0 0 256 256'%3E%3Cpath d='M240,102c0,70-103.79,126.66-108.21,129a8,8,0,0,1-7.58,0C119.79,228.66,16,172,16,102A62.07,62.07,0,0,1,78,40c20.65,0,38.73,8.88,50,23.89C139.27,48.88,157.35,40,178,40A62.07,62.07,0,0,1,240,102Z'%3E%3C/path%3E%3C/svg%3E");
     --icon-bookmark-accent: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%231f2127' viewBox='0 0 256 256'%3E%3Cpath d='M192,176v48l-64-40L64,224V176l64-40Z' opacity='0.2'%3E%3C/path%3E%3Cpath d='M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Zm0,16V161.57l-51.77-32.35a8,8,0,0,0-8.48,0L72,161.56V48ZM132.23,177.22a8,8,0,0,0-8.48,0L72,209.57V180.43l56-35,56,35v29.14Z'%3E%3C/path%3E%3C/svg%3E");
     --icon-bookmark-active: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%2377bb41' viewBox='0 0 256 256'%3E%3Cpath d='M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32ZM132.23,177.22a8,8,0,0,0-8.48,0L72,209.57V180.43l56-35,56,35v29.14Z'%3E%3C/path%3E%3C/svg%3E");
     --icon-translate-accent: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%231f2127' viewBox='0 0 256 256'%3E%3Cpath d='M224,184H144l40-80ZM96,127.56h0A95.78,95.78,0,0,0,128,56H64A95.78,95.78,0,0,0,96,127.56Z' opacity='0.2'%3E%3C/path%3E%3Cpath d='M247.15,212.42l-56-112a8,8,0,0,0-14.31,0l-21.71,43.43A88,88,0,0,1,108,126.93,103.65,103.65,0,0,0,135.69,64H160a8,8,0,0,0,0-16H104V32a8,8,0,0,0-16,0V48H32a8,8,0,0,0,0,16h87.63A87.7,87.7,0,0,1,96,116.35a87.74,87.74,0,0,1-19-31,8,8,0,1,0-15.08,5.34A103.63,103.63,0,0,0,84,127a87.55,87.55,0,0,1-52,17,8,8,0,0,0,0,16,103.46,103.46,0,0,0,64-22.08,104.18,104.18,0,0,0,51.44,21.31l-26.6,53.19a8,8,0,0,0,14.31,7.16L148.94,192h70.11l13.79,27.58A8,8,0,0,0,240,224a8,8,0,0,0,7.15-11.58ZM156.94,176,184,121.89,211.05,176Z'%3E%3C/path%3E%3C/svg%3E");
@@ -481,6 +548,8 @@
         --icon-quote-accent-active: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%23c9cdd6' viewBox='0 0 256 256'%3E%3Cpath d='M128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24ZM84,140a12,12,0,1,1,12-12A12,12,0,0,1,84,140Zm44,0a12,12,0,1,1,12-12A12,12,0,0,1,128,140Zm44,0a12,12,0,1,1,12-12A12,12,0,0,1,172,140Z'%3E%3C/path%3E%3C/svg%3E");
         --icon-star: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%23ffffff' viewBox='0 0 256 256'%3E%3Cpath d='M243,96a20.33,20.33,0,0,0-17.74-14l-56.59-4.57L146.83,24.62a20.36,20.36,0,0,0-37.66,0L87.35,77.44,30.76,82A20.45,20.45,0,0,0,19.1,117.88l43.18,37.24-13.2,55.7A20.37,20.37,0,0,0,79.57,233L128,203.19,176.43,233a20.39,20.39,0,0,0,30.49-22.15l-13.2-55.7,43.18-37.24A20.43,20.43,0,0,0,243,96ZM172.53,141.7a12,12,0,0,0-3.84,11.86L181.58,208l-47.29-29.08a12,12,0,0,0-12.58,0L74.42,208l12.89-54.4a12,12,0,0,0-3.84-11.86L41.2,105.24l55.4-4.47a12,12,0,0,0,10.13-7.38L128,41.89l21.27,51.5a12,12,0,0,0,10.13,7.38l55.4,4.47Z'%3E%3C/path%3E%3C/svg%3E");
         --icon-star-accent: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%23c9cdd6' viewBox='0 0 256 256'%3E%3Cpath d='M229.06,108.79l-48.7,42,14.88,62.79a8.4,8.4,0,0,1-12.52,9.17L128,189.09,73.28,222.74a8.4,8.4,0,0,1-12.52-9.17l14.88-62.79-48.7-42A8.46,8.46,0,0,1,31.73,94L95.64,88.8l24.62-59.6a8.36,8.36,0,0,1,15.48,0l24.62,59.6L224.27,94A8.46,8.46,0,0,1,229.06,108.79Z' opacity='0.2'%3E%3C/path%3E%3Cpath d='M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z'%3E%3C/path%3E%3C/svg%3E");
+        --icon-heart-accent: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%23c9cdd6' viewBox='0 0 256 256'%3E%3Cpath d='M178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32ZM128,206.8C109.74,196.16,32,147.69,32,94A46.06,46.06,0,0,1,78,48c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,147.61,146.24,196.15,128,206.8Z'%3E%3C/path%3E%3C/svg%3E");
+        --icon-heart-fill-accent: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%23c9cdd6' viewBox='0 0 256 256'%3E%3Cpath d='M240,102c0,70-103.79,126.66-108.21,129a8,8,0,0,1-7.58,0C119.79,228.66,16,172,16,102A62.07,62.07,0,0,1,78,40c20.65,0,38.73,8.88,50,23.89C139.27,48.88,157.35,40,178,40A62.07,62.07,0,0,1,240,102Z'%3E%3C/path%3E%3C/svg%3E");
         --icon-bookmark-accent: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%23c9cdd6' viewBox='0 0 256 256'%3E%3Cpath d='M192,176v48l-64-40L64,224V176l64-40Z' opacity='0.2'%3E%3C/path%3E%3Cpath d='M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Zm0,16V161.57l-51.77-32.35a8,8,0,0,0-8.48,0L72,161.56V48ZM132.23,177.22a8,8,0,0,0-8.48,0L72,209.57V180.43l56-35,56,35v29.14Z'%3E%3C/path%3E%3C/svg%3E");
         --icon-translate-accent: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%23c9cdd6' viewBox='0 0 256 256'%3E%3Cpath d='M224,184H144l40-80ZM96,127.56h0A95.78,95.78,0,0,0,128,56H64A95.78,95.78,0,0,0,96,127.56Z' opacity='0.2'%3E%3C/path%3E%3Cpath d='M247.15,212.42l-56-112a8,8,0,0,0-14.31,0l-21.71,43.43A88,88,0,0,1,108,126.93,103.65,103.65,0,0,0,135.69,64H160a8,8,0,0,0,0-16H104V32a8,8,0,0,0-16,0V48H32a8,8,0,0,0,0,16h87.63A87.7,87.7,0,0,1,96,116.35a87.74,87.74,0,0,1-19-31,8,8,0,1,0-15.08,5.34A103.63,103.63,0,0,0,84,127a87.55,87.55,0,0,1-52,17,8,8,0,0,0,0,16,103.46,103.46,0,0,0,64-22.08,104.18,104.18,0,0,0,51.44,21.31l-26.6,53.19a8,8,0,0,0,14.31,7.16L148.94,192h70.11l13.79,27.58A8,8,0,0,0,240,224a8,8,0,0,0,7.15-11.58ZM156.94,176,184,121.89,211.05,176Z'%3E%3C/path%3E%3C/svg%3E");
         --icon-ellipsis: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='%23ffffff' viewBox='0 0 256 256'%3E%3Cpath d='M152,128a24,24,0,1,1-24-24A24,24,0,0,1,152,128ZM48,104a24,24,0,1,0,24,24A24,24,0,0,0,48,104Zm160,0a24,24,0,1,0,24,24A24,24,0,0,0,208,104Z' opacity='0.2'%3E%3C/path%3E%3Cpath d='M128,96a32,32,0,1,0,32,32A32,32,0,0,0,128,96Zm0,48a16,16,0,1,1,16-16A16,16,0,0,1,128,144ZM48,96a32,32,0,1,0,32,32A32,32,0,0,0,48,96Zm0,48a16,16,0,1,1,16-16A16,16,0,0,1,48,144ZM208,96a32,32,0,1,0,32,32A32,32,0,0,0,208,96Zm0,48a16,16,0,1,1,16-16A16,16,0,0,1,208,144Z'%3E%3C/path%3E%3C/svg%3E");
@@ -1008,6 +1077,7 @@ body.app-body  {
         .icon-quote-right,
         .icon-home,
         .icon-collections,
+        .icon-collection,
         .icon-notifications-active,
         .icon-hashtag,
         .icon-explore,
@@ -1097,6 +1167,7 @@ body.app-body  {
         .icon-quote-right,
         .icon-home,
         .icon-collections,
+        .icon-collection,
         .icon-notifications-active,
         .icon-hashtag,
         .icon-explore,
@@ -1190,6 +1261,12 @@ body.app-body  {
     background-image: var(--icon-star);
     margin: 0;
 }
+html:is([data-theme-color], :has([class*="_comp_columns_area_"])) .app-body .icon-star {
+    background-image: var(--icon-heart-accent);
+}
+html:is([data-theme-color], :has([class*="_comp_columns_area_"])) .app-body .notification-group--favourite .icon-star {
+    background-image: var(--icon-heart-fill-accent);
+}
 .app-body .media-modal__overlay .icon-star {
     background-image: var(--icon-star-accent);
 }
@@ -1215,6 +1292,19 @@ body.app-body  {
 .app-body .detailed-status__link .icon-retweet {
     background-image: var(--icon-boost);
     margin: 0;
+}
+/* Collections notifications ("added to collection", new in 4.6). Mastodon
+   renders this one as a plain inline SVG under a different class name
+   (.icon-collection, singular) than the nav icon (.icon-collections), so
+   it fell through unstyled — swap it onto our own accent icon too. */
+.app-body .notification-group__icon .icon-collection {
+    background-image: var(--icon-collections-accent);
+}
+/* The icon box (40px, centered inside) sits ~9px lower than the header
+   label's own vertical center (22px tall, margin-top 0) — nudge it up to
+   match. Confirmed live. */
+.app-body .notification-group--added_to_collection .notification-group__icon {
+    margin-top: -9px;
 }
 .app-body
     button.icon-button:is(
@@ -3219,11 +3309,11 @@ div[tabindex="-1"] + div[tabindex="-1"] > .status__wrapper > .status-reply.statu
     :is(button, .status__action-bar__dropdown) {
         transition: all .3s;
 }
-.app-body .status__action-bar__button-wrapper:last-child {
+.app-body .status__action-bar > .status__action-bar__button-wrapper:last-child {
     position: absolute;
     inset-inline-end: 18px;
 }
-.app-body .notification-ungrouped .status__action-bar__button-wrapper:last-child {
+.app-body .notification-ungrouped .status__action-bar > .status__action-bar__button-wrapper:last-child {
     inset-inline-end: 23px;
 }
 
@@ -3241,7 +3331,7 @@ div[tabindex="-1"] + div[tabindex="-1"] > .status__wrapper > .status-reply.statu
         background-color: transparent;
 }
 
-.app-body .status__action-bar__button-wrapper:last-child .icon-button:is(.active, .active:active, .active:focus),
+.app-body .status__action-bar > .status__action-bar__button-wrapper:last-child .icon-button:is(.active, .active:active, .active:focus),
 .app-body :is(.detailed-status__action-bar-dropdown, .status__action-bar-dropdown) .icon-button:is(.active, .active:active, .active:focus) {
     background-color: var(--color-accent);
     transform: scale(.9);
@@ -3268,6 +3358,114 @@ div[tabindex="-1"] + div[tabindex="-1"] > .status__wrapper > .status-reply.statu
 .app-body .status__action-bar .icon-button.bookmark-icon.active>.icon-bookmark,
 .app-body .detailed-status__action-bar .icon-button.bookmark-icon.active>.icon-bookmark {
     animation: bounce-vertical .4s ease-out !important;
+}
+@property --tng-pop {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+}
+.app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__toggle"] {
+    --tng-pop: 0;
+    --tng-ring: min(1, var(--tng-pop) * 2.2);
+    --tng-burst: clamp(0, (var(--tng-pop) - .08) * 1.5, 1);
+    --tng-visible: min(1, var(--tng-pop) * 60);
+    --tng-burst-color: var(--color-accent);
+    --tng-burst-color-alt: color-mix(in srgb, var(--color-accent), var(--color-content-bg) 45%);
+    position: relative;
+    isolation: isolate;
+}
+@media (prefers-reduced-motion: no-preference) {
+    .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__toggle"]::before,
+    .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__toggle"]::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        inset-inline-start: calc(var(--inline-padding, 8px) + 10px);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: -1;
+        translate: -50% -50%;
+    }
+    [dir="rtl"] .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__toggle"]::before,
+    [dir="rtl"] .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__toggle"]::after {
+        translate: 50% -50%;
+    }
+    .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__toggle"][class*="_comp_button_redesign__iconOnly"]::before,
+    .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__toggle"][class*="_comp_button_redesign__iconOnly"]::after {
+        inset-inline-start: 50%;
+    }
+    .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__toggle"]::before {
+        width: 40px;
+        height: 40px;
+        box-shadow: inset 0 0 0 calc(1px + 6px * (1 - var(--tng-ring))) color-mix(in srgb, var(--tng-burst-color), transparent 40%);
+        scale: calc(.35 + var(--tng-ring) * .8);
+        opacity: calc(var(--tng-visible) * (1 - var(--tng-ring) * var(--tng-ring)));
+    }
+    .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__toggle"]::after {
+        --r: calc(9px + 17px * sin(var(--tng-burst) * 90deg));
+        --ri: calc(var(--r) * .72);
+        --s: calc(2.2px * (1 - var(--tng-burst)));
+        --si: calc(1.6px * (1 - var(--tng-burst)));
+        --c1: var(--tng-burst-color);
+        --c2: var(--tng-burst-color-alt);
+        width: 2px;
+        height: 2px;
+        opacity: calc(var(--tng-visible) * (1 - var(--tng-burst) * var(--tng-burst) * var(--tng-burst)));
+        box-shadow:
+            0 calc(var(--r) * -1) 0 var(--s) var(--c1),
+            calc(var(--r) * .7071) calc(var(--r) * -.7071) 0 var(--s) var(--c2),
+            var(--r) 0 0 var(--s) var(--c1),
+            calc(var(--r) * .7071) calc(var(--r) * .7071) 0 var(--s) var(--c2),
+            0 var(--r) 0 var(--s) var(--c1),
+            calc(var(--r) * -.7071) calc(var(--r) * .7071) 0 var(--s) var(--c2),
+            calc(var(--r) * -1) 0 0 var(--s) var(--c1),
+            calc(var(--r) * -.7071) calc(var(--r) * -.7071) 0 var(--s) var(--c2),
+            calc(var(--ri) * .3827) calc(var(--ri) * -.9239) 0 var(--si) var(--c2),
+            calc(var(--ri) * .9239) calc(var(--ri) * -.3827) 0 var(--si) var(--c1),
+            calc(var(--ri) * .9239) calc(var(--ri) * .3827) 0 var(--si) var(--c2),
+            calc(var(--ri) * .3827) calc(var(--ri) * .9239) 0 var(--si) var(--c1),
+            calc(var(--ri) * -.3827) calc(var(--ri) * .9239) 0 var(--si) var(--c2),
+            calc(var(--ri) * -.9239) calc(var(--ri) * .3827) 0 var(--si) var(--c1),
+            calc(var(--ri) * -.9239) calc(var(--ri) * -.3827) 0 var(--si) var(--c2),
+            calc(var(--ri) * -.3827) calc(var(--ri) * -.9239) 0 var(--si) var(--c1);
+    }
+    .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__toggle"] > svg {
+        transform-origin: center;
+    }
+    .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__toggle"][aria-pressed="true"] {
+        --tng-pop: 1;
+    }
+    :root:not(.reduce-motion) .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__toggle"][aria-pressed="true"] {
+        transition: background-color .2s, color .2s, opacity .2s, scale 450ms var(--tng-spring), --tng-pop .85s linear;
+    }
+    :root:not(.reduce-motion) .app-body [class*="_comp_status__actions"] > button[class*="_comp_status__actionsButtonGap"][aria-pressed="true"] > svg {
+        scale: calc(1 + .55 * sin(var(--tng-pop) * 540deg) * (1 - var(--tng-pop)) * (1 - var(--tng-pop)));
+        rotate: calc(-16deg * sin(var(--tng-pop) * 720deg) * (1 - var(--tng-pop)));
+    }
+    .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__toggle"]:not([class*="_comp_status__actionsButtonGap"], [class*="_comp_button_redesign__iconOnly"]) {
+        --tng-burst-color-alt: color-mix(in srgb, var(--color-accent), var(--color-content-fg-bold) 25%);
+    }
+    :root:not(.reduce-motion) .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__toggle"]:not([class*="_comp_status__actionsButtonGap"], [class*="_comp_button_redesign__iconOnly"])[aria-pressed="true"] {
+        transition: background-color .2s, color .2s, opacity .2s, scale 450ms var(--tng-spring), --tng-pop .9s cubic-bezier(.2, 1.25, .4, 1);
+    }
+    :root:not(.reduce-motion) .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__toggle"]:not([class*="_comp_status__actionsButtonGap"], [class*="_comp_button_redesign__iconOnly"])[aria-pressed="true"] > svg {
+        rotate: calc(var(--tng-pop) * 360deg);
+        scale: calc(1 + .35 * sin(min(var(--tng-pop), 1) * 180deg));
+    }
+    :root:not(.reduce-motion) .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__iconOnly"][aria-pressed="true"] {
+        transition: background-color .2s, color .2s, opacity .2s, scale 450ms var(--tng-spring), --tng-pop .6s linear;
+    }
+    :root:not(.reduce-motion) .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__iconOnly"][aria-pressed="true"] > svg {
+        translate: 0 calc(-7px * sin(min(var(--tng-pop) * 1.6, 1) * 180deg));
+        scale: calc(1 + .22 * sin(clamp(0, var(--tng-pop) * 1.6 - .6, 1) * 180deg) * -1) calc(1 + .22 * sin(clamp(0, var(--tng-pop) * 1.6 - .6, 1) * 180deg));
+    }
+    .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__iconOnly"]::after {
+        display: none;
+    }
+}
+:root.reduce-motion .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__toggle"]::before,
+:root.reduce-motion .app-body [class*="_comp_status__actions"] > button[class*="_comp_button_redesign__toggle"]::after {
+    display: none;
 }
 .app-body .status__action-bar .icon-button,
 .app-body .detailed-status__action-bar .icon-button {
@@ -3753,7 +3951,7 @@ div[tabindex="-1"] + div[tabindex="-1"] > .status__wrapper > .status-reply.statu
 .app-body .spoiler-button:hover ~ .media-gallery__item > .media-gallery__preview {
     outline: 1px solid var(--color-lines-translucent);
 }
-.app-body .media-gallery__actions__pill {
+.app-body .media-gallery__actions__pill:not([class*="_comp_button_redesign"]) {
     border-radius: 6px;
     padding: 3px 8px;
     font-weight: 500;
@@ -3774,7 +3972,7 @@ div[tabindex="-1"] + div[tabindex="-1"] > .status__wrapper > .status-reply.statu
     font-weight: bold;
 }
 
-.app-body :is(.media-gallery__alt__label, .media-gallery__gifv__label) {
+.app-body :is(.media-gallery__alt__label, .media-gallery__gifv__label):not([class*="_comp_button_redesign"]) {
     background-color: rgba(0, 0, 0, .1);
     border-radius: 6px;
 }
@@ -3913,6 +4111,9 @@ div[tabindex="-1"] + div[tabindex="-1"] > .status__wrapper > .status-reply.statu
 .app-body .notification__message:has(+ div > .status__wrapper.status__wrapper-direct),
 .app-body .notification-ungrouped--direct .notification-ungrouped__header {
     --color-post-bg: color-mix(in srgb, var(--color-accent), var(--color-content-bg) 96%);
+}
+html:is([data-theme-color], :has([class*="_comp_columns_area_"])) .app-body [class*="_comp_status__isMessage"] {
+    background-color: color-mix(in srgb, var(--color-accent), var(--color-content-bg) 96%);
 }
 .app-body .status__wrapper.status__wrapper-direct:has(.status__content:hover),
 .app-body .status__wrapper.status__wrapper-direct:has(.status__content:hover) .status__avatar,
@@ -4389,6 +4590,12 @@ div[tabindex="-1"] + div[tabindex="-1"] > .status__wrapper > .status-reply.statu
 }
 .app-body .notification__filter-bar .active .icon-home {
     background-image: var(--icon-post-notification);
+}
+.app-body .notification__filter-bar .icon-collections {
+    background-image: var(--icon-collections-accent);
+}
+.app-body .notification__filter-bar .active .icon-collections {
+    background-image: var(--icon-collections);
 }
 
 @media screen and (max-width:770px) {
@@ -5974,21 +6181,94 @@ div[tabindex="-1"] + div[tabindex="-1"] > .status__wrapper > .status-reply.statu
     }
 }
 .app-body .notification-bar {
-    background-color: color-mix(in srgb, var(--color-content-bg), transparent 25%);
-    color: var(--color-content-fg);
-    border: 1px solid var(--color-lines-translucent);
+    position: relative;
+    overflow: hidden;
     align-items: center;
-    box-shadow: var(--dropdown-shadow);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    gap: 12px;
+    padding: 10px 10px 10px 12px;
+    border-radius: 18px;
+    background-color: color-mix(in srgb, var(--color-content-bg), transparent 15%);
+    color: var(--color-content-fg-bold);
+    border: 1px solid var(--color-lines-translucent);
+    box-shadow:
+        0 1px 2px color-mix(in srgb, #000000, transparent 92%),
+        0 12px 32px -8px color-mix(in srgb, #000000, transparent 78%);
+    -webkit-backdrop-filter: blur(16px) saturate(1.6);
+    backdrop-filter: blur(16px) saturate(1.6);
+    font-weight: 500;
+    min-height: 52px;
+    box-sizing: border-box;
+}
+.app-body .notification-bar__title {
+    color: var(--color-reject);
 }
 .app-body .notification-bar__action {
     color: var(--color-accent);
-    transition: all .2s;
+    background-color: var(--color-accent-bg);
+    text-transform: none;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 999px;
+    transition: background-color .2s, scale .45s var(--tng-spring);
 }
 .app-body .notification-bar__action:is(:active, :focus, :hover) {
-    background-color: var(--color-accent-bg);
+    background-color: color-mix(in srgb, var(--color-accent), var(--color-accent-bg) 75%);
     color: var(--color-accent);
+}
+.app-body .notification-bar__action:active {
+    scale: 0.92;
+    transition: background-color .2s, scale 90ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.app-body .notification-list .notification-bar:not(:has(.notification-bar__loading-indicator))::before {
+    content: '';
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5.5 12.5l4 4L18.5 7.5'/%3E%3C/svg%3E") center / 16px no-repeat,
+        var(--color-accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent), transparent 82%);
+}
+.app-body .notification-list .notification-bar:has(.notification-bar__title)::before {
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M12 6.5v7'/%3E%3Cpath d='M12 17.5h.01'/%3E%3C/svg%3E") center / 16px no-repeat,
+        var(--color-reject);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-reject), transparent 82%);
+}
+@media (prefers-reduced-motion: no-preference) {
+    :root:not(.reduce-motion) .app-body .notification-bar {
+        translate: 0 28px;
+        scale: 0.9;
+        opacity: 0;
+        filter: blur(4px);
+        transition:
+            translate 280ms cubic-bezier(0.4, 0, 1, 1),
+            scale 280ms cubic-bezier(0.4, 0, 1, 1),
+            opacity 220ms ease-in,
+            filter 280ms ease-in;
+    }
+    :root:not(.reduce-motion) .app-body .notification-bar.notification-bar--active {
+        translate: none;
+        scale: 1;
+        opacity: 1;
+        filter: none;
+        transition:
+            translate 500ms var(--tng-spring),
+            scale 500ms var(--tng-spring),
+            opacity 180ms ease-out,
+            filter 240ms ease-out;
+    }
+    :root:not(.reduce-motion) .app-body .notification-list .notification-bar::before {
+        scale: 0;
+        rotate: -45deg;
+        transition: scale 150ms ease-in, rotate 150ms ease-in;
+    }
+    :root:not(.reduce-motion) .app-body .notification-list .notification-bar.notification-bar--active::before {
+        scale: 1;
+        rotate: 0deg;
+        transition: scale 500ms var(--tng-spring) 120ms, rotate 500ms var(--tng-spring) 120ms;
+    }
 }
 
 .app-body .column-settings h3,
@@ -6212,8 +6492,22 @@ div[tabindex="-1"] + div[tabindex="-1"] > .status__wrapper > .status-reply.statu
         color: var(--color-content-fg);
         font-weight: 700;
 }
+/* Unlike .notification-ungrouped__header (styled a few rules above with
+   font-weight:500 + accent color), .notification-group__main__header__label
+   had no equivalent of either — removing our old content-fg override just
+   left it at browser-default plain/regular, not accent. Match the same
+   weight+color; the :is(bdi, bdi > strong) rule above still recolors just
+   the name back to dark+bold on top of this. */
 .app-body .notification-group__main__header__label {
-    color: var(--color-content-fg);
+    color: var(--color-accent);
+    font-weight: 500;
+}
+/* Only push content apart when there's a trailing <time> to right-align
+   (e.g. favourite/boost). Types without one (e.g. "added to collection")
+   have just a name + trailing description text as the two flex children,
+   and space-between shoved that description all the way to the right
+   instead of letting it flow after the name. */
+.app-body .notification-group__main__header__label:has(time) {
     justify-content: space-between;
 }
 .app-body .notification-group__main__header__label time {
@@ -7011,6 +7305,223 @@ div[tabindex="-1"] + div[tabindex="-1"] > .status__wrapper > .status-reply.statu
 @media (prefers-reduced-motion: reduce) {
     .app-body .modal-root__modal:not(.media-modal) { animation: none; }
 }
+.app-body .modal-root__container > [class*="_comp_modal_shell_redesign__modal"] {
+    transform-origin: center;
+    animation: t-modal-open 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.app-body :is([class*="_compose_redesign_trigger__composer"], [class*="_compose_redesign_trigger__composerMinimized"]) {
+    transform-origin: bottom center;
+    animation:
+        t-spring-rise 400ms var(--tng-spring),
+        t-fade-unblur 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+html:is([data-theme-color], :has([class*="_comp_columns_area_"])) .app-body .safety-action-modal {
+    width: 400px;
+    max-width: calc(100vw - 32px);
+    padding: 16px;
+    border-radius: 24px;
+    border: 1px solid var(--color-lines);
+    outline: 0;
+    box-shadow: 0 24px 48px -12px var(--color-shadow-primary);
+    background-color: var(--color-content-bg);
+    animation: t-modal-open 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+html:is([data-theme-color], :has([class*="_comp_columns_area_"])) .app-body .safety-action-modal:not(:has(.safety-action-modal__confirmation)) {
+    width: 480px;
+}
+html:is([data-theme-color], :has([class*="_comp_columns_area_"])) .app-body :is(.safety-action-modal__top, .safety-action-modal__bottom) {
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+}
+html:is([data-theme-color], :has([class*="_comp_columns_area_"])) .app-body .safety-action-modal__bottom {
+    margin-top: 16px;
+}
+html:is([data-theme-color], :has([class*="_comp_columns_area_"])) .app-body .safety-action-modal__confirmation {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--color-content-fg);
+}
+html:is([data-theme-color], :has([class*="_comp_columns_area_"])) .app-body .safety-action-modal__confirmation h1 {
+    padding: 0;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--color-fg);
+}
+html:is([data-theme-color], :has([class*="_comp_columns_area_"])) .app-body .safety-action-modal__confirmation p {
+    margin: 0;
+}
+html:is([data-theme-color], :has([class*="_comp_columns_area_"])) .app-body .safety-action-modal__actions {
+    justify-content: space-between;
+    gap: 16px;
+}
+html:is([data-theme-color], :has([class*="_comp_columns_area_"])) .app-body .safety-action-modal__actions :is(.link-button, .button) {
+    min-height: 40px;
+    padding: 8px 16px;
+    border: 0;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    text-decoration: none;
+    transition: background-color 200ms, scale 450ms var(--tng-spring);
+}
+html:is([data-theme-color], :has([class*="_comp_columns_area_"])) .app-body .safety-action-modal__actions .link-button {
+    color: var(--color-content-fg);
+    background-color: color-mix(in srgb, var(--color-content-fg), transparent 95%);
+}
+html:is([data-theme-color], :has([class*="_comp_columns_area_"])) .app-body .safety-action-modal__actions .link-button:hover {
+    background-color: color-mix(in srgb, var(--color-content-fg), transparent 90%);
+}
+html:is([data-theme-color], :has([class*="_comp_columns_area_"])) .app-body .safety-action-modal__actions .button {
+    margin-inline-start: auto;
+}
+html:is([data-theme-color], :has([class*="_comp_columns_area_"])) .app-body .safety-action-modal__actions :is(.link-button, .button):active {
+    scale: 0.92;
+    transition: background-color 200ms, scale 90ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+    html:is([data-theme-color], :has([class*="_comp_columns_area_"])) .app-body .safety-action-modal { animation: none; }
+}
+@keyframes t-modal-open {
+    from { opacity: 0; scale: 0.96; }
+    to   { opacity: 1; scale: 1; }
+}
+@property --tng-nav {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+    :root:not(.reduce-motion) .app-body [class*="_comp_button_redesign__base"] {
+        transition: background-color 200ms, color 200ms, opacity 200ms, scale 450ms var(--tng-spring);
+    }
+    :root:not(.reduce-motion) .app-body [class*="_comp_button_redesign__base"]:active:not(:disabled, [aria-disabled="true"]) {
+        scale: 0.92;
+        transition: background-color 200ms, color 200ms, opacity 200ms, scale 90ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+    }
+    :root:not(.reduce-motion) .app-body [class*="_navigation_panel_redesign_navigation_link__link"].active {
+        --tng-nav: 1;
+        transition: background-color 200ms, color 200ms, --tng-nav 550ms linear;
+    }
+    :root:not(.reduce-motion) .app-body [class*="_navigation_panel_redesign_navigation_link__link"].active [class*="_navigation_panel_redesign_navigation_link__icon"] > svg {
+        scale: calc(1 + .45 * sin(var(--tng-nav) * 540deg) * (1 - var(--tng-nav)) * (1 - var(--tng-nav)));
+        rotate: calc(-12deg * sin(var(--tng-nav) * 360deg) * (1 - var(--tng-nav)));
+    }
+    :root:not(.reduce-motion) .app-body [class*="_navigation_panel_redesign_navigation_link__link"]:active {
+        scale: 0.97;
+    }
+    :root:not(.reduce-motion) .app-body [class*="_comp_menu__card"] {
+        animation:
+            t-menu-reveal 180ms cubic-bezier(0.22, 1, 0.36, 1),
+            t-fade-in 110ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    :root:not(.reduce-motion) .app-body [class*="_comp_menu__card"] > * {
+        transform-origin: var(--tng-menu-origin, top center);
+        animation: t-menu-spring 280ms var(--tng-spring);
+    }
+    .app-body [class*="_comp_menu__card"][data-popover-placement^="bottom"] { --tng-menu-origin: top center; --tng-menu-from: inset(0 10% 30% 10% round var(--radius-4, 16px)); }
+    .app-body [class*="_comp_menu__card"][data-popover-placement^="top"] { --tng-menu-origin: bottom center; --tng-menu-from: inset(30% 10% 0 10% round var(--radius-4, 16px)); }
+    .app-body [class*="_comp_menu__card"][data-popover-placement^="left"] { --tng-menu-origin: right center; --tng-menu-from: inset(10% 0 10% 30% round var(--radius-4, 16px)); }
+    .app-body [class*="_comp_menu__card"][data-popover-placement^="right"] { --tng-menu-origin: left center; --tng-menu-from: inset(10% 30% 10% 0 round var(--radius-4, 16px)); }
+    .app-body [class*="_comp_menu__card"][data-popover-placement="bottom-start"] { --tng-menu-origin: top left; --tng-menu-from: inset(0 30% 30% 0 round var(--radius-4, 16px)); }
+    .app-body [class*="_comp_menu__card"][data-popover-placement="bottom-end"] { --tng-menu-origin: top right; --tng-menu-from: inset(0 0 30% 30% round var(--radius-4, 16px)); }
+    .app-body [class*="_comp_menu__card"][data-popover-placement="top-start"] { --tng-menu-origin: bottom left; --tng-menu-from: inset(30% 30% 0 0 round var(--radius-4, 16px)); }
+    .app-body [class*="_comp_menu__card"][data-popover-placement="top-end"] { --tng-menu-origin: bottom right; --tng-menu-from: inset(30% 0 0 30% round var(--radius-4, 16px)); }
+    [dir="rtl"] .app-body [class*="_comp_menu__card"][data-popover-placement="bottom-start"] { --tng-menu-origin: top right; --tng-menu-from: inset(0 0 30% 30% round var(--radius-4, 16px)); }
+    [dir="rtl"] .app-body [class*="_comp_menu__card"][data-popover-placement="bottom-end"] { --tng-menu-origin: top left; --tng-menu-from: inset(0 30% 30% 0 round var(--radius-4, 16px)); }
+    [dir="rtl"] .app-body [class*="_comp_menu__card"][data-popover-placement="top-start"] { --tng-menu-origin: bottom right; --tng-menu-from: inset(30% 0 0 30% round var(--radius-4, 16px)); }
+    [dir="rtl"] .app-body [class*="_comp_menu__card"][data-popover-placement="top-end"] { --tng-menu-origin: bottom left; --tng-menu-from: inset(30% 30% 0 0 round var(--radius-4, 16px)); }
+    :root:not(.reduce-motion) .app-body [class*="_navigation_panel_redesign_navigation_link__badge"],
+    :root:not(.reduce-motion) .app-body [class*="_navigation_panel_redesign_navigation_link__iconWithDot"]::after {
+        animation:
+            t-pop-in 450ms var(--tng-spring),
+            t-fade-in 120ms ease-out;
+    }
+    :root:not(.reduce-motion) .app-body [class*="_navigation_panel_redesign_navigation_link__link"]:has([class*="_navigation_panel_redesign_navigation_link__badge"], [class*="_navigation_panel_redesign_navigation_link__iconWithDot"]) [class*="_navigation_panel_redesign_navigation_link__icon"] > svg {
+        transform-origin: 50% 10%;
+        animation: t-bell-wiggle 700ms ease-in-out 150ms;
+    }
+    :root:not(.reduce-motion) .app-body .poll__number {
+        animation: t-rise-in 400ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    :root:not(.reduce-motion) .app-body .poll li:nth-child(2) .poll__number { animation-delay: 40ms; }
+    :root:not(.reduce-motion) .app-body .poll li:nth-child(3) .poll__number { animation-delay: 80ms; }
+    :root:not(.reduce-motion) .app-body .poll li:nth-child(4) .poll__number { animation-delay: 120ms; }
+    :root:not(.reduce-motion) .app-body .poll__voted__mark {
+        animation: t-pop-in 450ms var(--tng-spring) 150ms both;
+    }
+    :root:not(.reduce-motion) .app-body .poll__option:has(+ .poll__chart.leading) {
+        animation: t-trophy-pop 500ms var(--tng-spring) 350ms both;
+    }
+    .app-body .poll__chart.leading {
+        overflow: hidden;
+    }
+    :root:not(.reduce-motion) .app-body .poll__chart.leading::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(100deg, transparent 20%, rgb(255 255 255 / .55) 50%, transparent 80%);
+        translate: -100% 0;
+        animation: t-shine 900ms cubic-bezier(0.22, 1, 0.36, 1) 500ms;
+    }
+}
+@keyframes t-menu-spring {
+    from { scale: 0.94; }
+    to   { scale: 1; }
+}
+@keyframes t-menu-reveal {
+    from { clip-path: var(--tng-menu-from, inset(0 round var(--radius-4, 16px))); }
+    to   { clip-path: inset(0 round var(--radius-4, 16px)); }
+}
+@keyframes t-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@keyframes t-pop-in {
+    from { scale: 0; }
+    to   { scale: 1; }
+}
+@keyframes t-rise-in {
+    from { opacity: 0; translate: 0 6px; filter: blur(2px); }
+    to   { opacity: 1; translate: 0 0; filter: blur(0); }
+}
+@keyframes t-trophy-pop {
+    from { background-size: 0; }
+    to   { background-size: 20px; }
+}
+@keyframes t-shine {
+    from { translate: -100% 0; }
+    to   { translate: 100% 0; }
+}
+@keyframes t-bell-wiggle {
+    0%   { rotate: 0deg; }
+    10%  { rotate: 16deg; }
+    30%  { rotate: -13deg; }
+    30%  { rotate: 9deg; }
+    60%  { rotate: -6deg; }
+    75%  { rotate: 3deg; }
+    100% { rotate: 0deg; }
+}
+@keyframes t-spring-rise {
+    from { translate: 0 48px; scale: 0.92; }
+    to   { translate: 0 0; scale: 1; }
+}
+@keyframes t-fade-unblur {
+    from { opacity: 0; filter: blur(2px); }
+    to   { opacity: 1; filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .app-body .modal-root__container > [class*="_comp_modal_shell_redesign__modal"],
+    .app-body :is([class*="_compose_redesign_trigger__composer"], [class*="_compose_redesign_trigger__composerMinimized"]) {
+        animation: none;
+    }
+}
 .app-body .compare-history-modal {
     background-color: var(--color-content-bg);
     color: var(--color-content-fg);
@@ -7145,6 +7656,8 @@ div[tabindex="-1"] + div[tabindex="-1"] > .status__wrapper > .status-reply.statu
 }
 .app-body .actions-modal {
     background-color: var(--color-content-bg);
+    border-radius: 8px;
+    overflow: hidden;
 }
 .app-body .actions-modal :is(a, button) {
     color: var(--color-content-fg);
@@ -8346,11 +8859,14 @@ a:is(.active,
     font-weight: 600;
 }
 
-.layout-multiple-columns .column:has(> .getting-started) {
+/* The nav column contained .getting-started pre-4.6; 4.6 renders
+   .navigation-panel instead — match both, otherwise the nav column
+   loses its fixed width and stretches into the leftover space. */
+.layout-multiple-columns .column:has(> .getting-started, .navigation-panel) {
     width: 330px;
 }
 .layout-multiple-columns
-    .column:has(> .getting-started)
+    .column:has(> .getting-started, .navigation-panel)
     :is(.column-header, .column-back-button),
 .layout-single-column .navigation-bar:has(+ .getting-started) {
     display: none;
@@ -8367,46 +8883,16 @@ a:is(.active,
 
 .layout-multiple-columns .drawer {
     width: 280px;
-    transition: width .3s;
 }
-.layout-multiple-columns
-    .drawer:has(> .drawer__pager > .drawer__inner > .search-results > .search-results__section) {
-        width: 400px;
-}
-.layout-multiple-columns .drawer__inner:has(> .search-results > .search-results__section) {
-    z-index: 2;
-    background-color: var(--color-content-bg);
-    border-left: 1px solid var(--color-lines);
-    border-right: 1px solid var(--color-lines);
-}
-
-.layout-multiple-columns
-    .drawer
-    > .search:has(+ .drawer__pager > .drawer__inner > .search-results > .search-results__section) {
-        margin-bottom: 0;
-}
-.layout-multiple-columns
-    .drawer
-    > .search:has(+ .drawer__pager > .drawer__inner > .search-results > .search-results__section)
-    > .search__input {
-        border-radius: 8px 8px 0 0;
-}
+/* Note: pre-4.6, search results rendered inside the drawer (which the theme
+   widened to 400px for them); 4.6 routes search results into the spare
+   column instead, so those drawer-expansion rules were removed as dead. */
 
 .layout-multiple-columns .drawer__pager {
     border-radius: 0;
     border: 0;
 }
-.layout-multiple-columns
-    .drawer
-    > .search:has(+ .drawer__pager > .drawer__inner > .search-results > .search-results__section)
-    > .search__popout {
-        border-radius: 0 0 8px 8px;
-        margin-top: 0;
-}
 
-.layout-multiple-columns .drawer__inner:has(.search-results .empty-column-indicator) {
-    z-index: 3;
-}
 .layout-multiple-columns .search-results .empty-column-indicator {
     border: 1px solid var(--color-lines);
     border-radius: 8px;
@@ -9073,3 +9559,56 @@ a:is(.active,
     height: 30px;
 }
 
+
+/* Collections tab-list */
+.app-body ._feat_collections__header {
+    width: 100% !important;
+}
+.app-body ._feat_collections__header ._comp_tab_list__tabList {
+    width: 100% !important;
+}
+
+/* Handle explainer popover */
+.app-body ._comp_account_header__handleHelp {
+    background-color: var(--color-content-bg);
+    color: var(--color-content-fg);
+    border: 1px solid var(--color-lines);
+    border-radius: 8px;
+}
+.app-body .icon-help {
+    width: 14px;
+    height: 14px;
+}
+
+/* Collection share modal buttons */
+.app-body ._collections_components_share_modal__shareButtonWrapper .button.button-secondary {
+    background-color: var(--color-accent);
+    color: var(--color-accent-fg);
+    border-color: var(--color-accent);
+}
+.app-body ._collections_components_share_modal__shareButtonWrapper .button.button-secondary:is(:hover, :active, :focus) {
+    background-color: var(--color-accent-focus);
+    border-color: var(--color-accent-focus);
+}
+
+/* Collections heading */
+.app-body ._feat_collections__heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding-left: 15px;
+    font-size: 16px;
+    font-weight: 700;
+}
+.app-body ._feat_collections__heading::before {
+    content: "";
+    display: block;
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    transform: scale(1.2);
+    background-image: var(--icon-collections-gray);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
