@@ -18,7 +18,9 @@ class TranslationService::LibreTranslate < TranslationService
   def languages
     request(:get, '/languages') do |res|
       languages = JSON.parse(res.body_with_limit).to_h do |language|
-        [language['code'], language['targets'].without(language['code'])]
+        code = normalize_language_code(language['code'])
+        targets = language['targets'].without(language['code']).map { |target| normalize_language_code(target) }
+        [code, targets]
       end
       languages[nil] = languages.values.flatten.uniq.sort
       languages
@@ -26,6 +28,16 @@ class TranslationService::LibreTranslate < TranslationService
   end
 
   private
+
+  # LibreTranslate reports Simplified Chinese as 'zh-Hans', but Mastodon
+  # matches languages against the user's locale base ('zh', stripped from
+  # e.g. 'zh-CN'). Without this mapping, Chinese-UI users never see the
+  # translate button and their translation requests are rejected as not
+  # permitted. LibreTranslate itself accepts 'zh' as a target, so no
+  # mapping back is needed when translating.
+  def normalize_language_code(code)
+    code == 'zh-Hans' ? 'zh' : code
+  end
 
   def request(verb, path, **)
     req = Request.new(verb, "#{@base_url}#{path}", allow_local: true, **)

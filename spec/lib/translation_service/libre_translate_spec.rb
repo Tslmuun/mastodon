@@ -26,6 +26,22 @@ RSpec.describe TranslationService::LibreTranslate do
     it 'returns target languages for auto-detected language' do
       expect(languages[nil]).to eq %w(de en es pt)
     end
+
+    context 'when the backend reports Simplified Chinese as zh-Hans' do
+      before do
+        stub_request(:get, 'https://libretranslate.example.com/languages').to_return(
+          body: '[{"code": "en","name": "English","targets": ["en","ja","zh-Hans"]},{"code": "zh-Hans","name": "Chinese","targets": ["en","ja","zh-Hans"]},{"code": "ja","name": "Japanese","targets": ["en","ja","zh-Hans"]}]'
+        )
+      end
+
+      it 'normalizes zh-Hans to zh so it matches user locale bases' do
+        expect(languages.keys).to eq ['en', 'zh', 'ja', nil]
+        expect(languages['en']).to eq %w(ja zh)
+        expect(languages['zh']).to eq %w(en ja)
+        expect(languages['ja']).to eq %w(en zh)
+        expect(languages[nil]).to eq %w(en ja zh)
+      end
+    end
   end
 
   describe '#translate' do
