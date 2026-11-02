@@ -53,6 +53,19 @@ import type {
 
 const messages = defineMessages({
   label: { id: 'search_filters.label', defaultMessage: 'Filters' },
+  activeCount: {
+    id: 'search_filters.active_count',
+    defaultMessage:
+      '{count, plural, one {# filter active} other {# filters active}}',
+  },
+  expand: {
+    id: 'search_filters.expand',
+    defaultMessage: 'Expand filters',
+  },
+  collapse: {
+    id: 'search_filters.collapse',
+    defaultMessage: 'Collapse filters',
+  },
   time: { id: 'search_filters.time', defaultMessage: 'Time' },
   timeAll: { id: 'search_filters.time_all', defaultMessage: 'Any time' },
   timeWeek: { id: 'search_filters.time_week', defaultMessage: 'Past week' },
@@ -529,6 +542,7 @@ export const SearchFilterBar: React.FC<{
   const filters = getSearchFilters(query);
   const [dateRangeOpen, setDateRangeOpen] = useState(false);
   const [authorPickerOpen, setAuthorPickerOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const timeControlRef = useRef<HTMLButtonElement>(null);
   const authorControlRef = useRef<HTMLButtonElement>(null);
 
@@ -590,6 +604,21 @@ export const SearchFilterBar: React.FC<{
   if (selectedContentValues.size === 0) {
     selectedContentValues.add('all');
   }
+
+  const activeFilterCount =
+    (filters.hasTimeFilter ? 1 : 0) +
+    (filters.hasScopeFilter ? 1 : 0) +
+    (filters.hasAuthorFilter ? 1 : 0) +
+    filters.contentClauses.length;
+
+  const handleToggleCollapsed = useCallback(() => {
+    if (!collapsed) {
+      setDateRangeOpen(false);
+      setAuthorPickerOpen(false);
+    }
+
+    setCollapsed(!collapsed);
+  }, [collapsed]);
 
   const formatFilterDate = (value: string) =>
     intl.formatDate(new Date(`${value}T12:00:00`), {
@@ -737,10 +766,32 @@ export const SearchFilterBar: React.FC<{
       aria-label={intl.formatMessage(messages.label)}
     >
       <div className='search-filter-bar__header'>
-        <span className='search-filter-bar__heading'>
+        <button
+          type='button'
+          className='search-filter-bar__toggle'
+          aria-expanded={!collapsed}
+          aria-label={intl.formatMessage(
+            collapsed ? messages.expand : messages.collapse,
+          )}
+          onClick={handleToggleCollapsed}
+        >
           <Icon id='filter' icon={FilterIcon} />
           {intl.formatMessage(messages.label)}
-        </span>
+          {filters.hasActiveFilters && (
+            <span className='search-filter-bar__active-count'>
+              {intl.formatMessage(messages.activeCount, {
+                count: activeFilterCount,
+              })}
+            </span>
+          )}
+          <span
+            className={classNames('search-filter-bar__toggle-icon', {
+              'search-filter-bar__toggle-icon--expanded': !collapsed,
+            })}
+          >
+            <Icon id='caret-down' icon={ArrowDropDownIcon} />
+          </span>
+        </button>
 
         {filters.hasActiveFilters && (
           <button
@@ -753,46 +804,48 @@ export const SearchFilterBar: React.FC<{
         )}
       </div>
 
-      <div className='search-filter-bar__controls'>
-        <SearchFilterDropdown
-          label={intl.formatMessage(messages.time)}
-          value={filters.time}
-          displayValue={timeLabel}
-          options={timeOptions}
-          active={filters.hasTimeFilter}
-          buttonRef={timeControlRef}
-          onSelect={handleTimeSelect}
-        />
-        <SearchFilterDropdown
-          label={intl.formatMessage(messages.scope)}
-          value={filters.scope}
-          displayValue={scopeLabel}
-          options={scopeOptions}
-          active={filters.hasScopeFilter}
-          onSelect={handleScopeSelect}
-        />
-        <SearchFilterDropdown
-          label={intl.formatMessage(messages.author)}
-          value={filters.author}
-          displayValue={authorLabel}
-          options={authorOptions}
-          active={filters.hasAuthorFilter}
-          buttonRef={authorControlRef}
-          onSelect={handleAuthorSelect}
-        />
-        <SearchFilterDropdown
-          label={intl.formatMessage(messages.content)}
-          value={filters.content}
-          displayValue={contentLabel}
-          options={contentOptions}
-          active={filters.contentClauses.length > 0}
-          selectedValues={selectedContentValues}
-          closeOnSelect={false}
-          onSelect={handleContentSelect}
-        />
-      </div>
+      {!collapsed && (
+        <div className='search-filter-bar__controls'>
+          <SearchFilterDropdown
+            label={intl.formatMessage(messages.time)}
+            value={filters.time}
+            displayValue={timeLabel}
+            options={timeOptions}
+            active={filters.hasTimeFilter}
+            buttonRef={timeControlRef}
+            onSelect={handleTimeSelect}
+          />
+          <SearchFilterDropdown
+            label={intl.formatMessage(messages.scope)}
+            value={filters.scope}
+            displayValue={scopeLabel}
+            options={scopeOptions}
+            active={filters.hasScopeFilter}
+            onSelect={handleScopeSelect}
+          />
+          <SearchFilterDropdown
+            label={intl.formatMessage(messages.author)}
+            value={filters.author}
+            displayValue={authorLabel}
+            options={authorOptions}
+            active={filters.hasAuthorFilter}
+            buttonRef={authorControlRef}
+            onSelect={handleAuthorSelect}
+          />
+          <SearchFilterDropdown
+            label={intl.formatMessage(messages.content)}
+            value={filters.content}
+            displayValue={contentLabel}
+            options={contentOptions}
+            active={filters.contentClauses.length > 0}
+            selectedValues={selectedContentValues}
+            closeOnSelect={false}
+            onSelect={handleContentSelect}
+          />
+        </div>
+      )}
 
-      {dateRangeOpen && (
+      {!collapsed && dateRangeOpen && (
         <SearchDateRangeForm
           key={`${filters.dateRange?.start ?? ''}:${filters.dateRange?.end ?? ''}`}
           initialRange={filters.dateRange}
@@ -802,7 +855,7 @@ export const SearchFilterBar: React.FC<{
         />
       )}
 
-      {authorPickerOpen && (
+      {!collapsed && authorPickerOpen && (
         <SearchAuthorPicker
           onSelect={handleAuthorAccountSelect}
           onCancel={handleAuthorCancel}

@@ -24,6 +24,46 @@
     min-height: 28px;
   }
 
+  &__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: start;
+
+    &:focus-visible {
+      outline: var(--outline-focus-default);
+      outline-offset: 2px;
+    }
+
+    .icon {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &__active-count {
+    color: var(--color-text-brand);
+    font-size: 13px;
+  }
+
+  &__toggle-icon {
+    display: inline-flex;
+    transition: transform 0.15s ease;
+
+    &--expanded {
+      transform: rotate(180deg);
+    }
+  }
+
   &__controls {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
