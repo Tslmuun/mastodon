@@ -279,7 +279,8 @@ class MediaGallery extends PureComponent {
     trailing: true,
   });
 
-  handleOpen = () => {
+  handleOpen = (e) => {
+    e.preventDefault();
     if (this.props.onToggleVisibility) {
       this.props.onToggleVisibility();
     } else {
@@ -350,10 +351,9 @@ class MediaGallery extends PureComponent {
         {(visible && !uncached) && (
           <div className='media-gallery__actions'>
             <Button
-              contrastOnMedia
               size='xs'
               type='button'
-              variant='solid'
+              variant='onMedia'
               className='media-gallery__actions__pill'
               onClick={this.handleOpen}
             >
